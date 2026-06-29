@@ -221,7 +221,7 @@ td{padding:8px 10px;font-size:13px;color:var(--tx);vertical-align:middle;overflo
   </div>
 </div>
 </head>
-<body>
+<body><!--SNAP-START--><style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style><div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center"><div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)"><div style="font-size:32px;margin-bottom:10px">🏢</div><div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div><div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; 29/06/2026 04:38 p. m.</div><input id="snap-pi" type="password" placeholder="Contraseña..." style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center"><div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div><button onclick="window.__snapLogin()" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button></div></div><script>(function(){var ph=2000931436;window.__snapLogin=function(){var v=document.getElementById("snap-pi").value,h=0;for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}if(h===ph){document.getElementById("snap-ls").style.display="none";sessionStorage.setItem("crm_snap","1");}else{document.getElementById("snap-pe").style.display="block";document.getElementById("snap-pi").value="";}};document.addEventListener("keydown",function(e){if(e.key==="Enter")window.__snapLogin();});if(sessionStorage.getItem("crm_snap")==="1"){setTimeout(function(){var s=document.getElementById("snap-ls");if(s)s.style.display="none";},30);}else{setTimeout(function(){var i=document.getElementById("snap-pi");if(i)i.focus();},100);}})();</script><!--SNAP-END-->
 <div class="app">
 <div class="topbar">
   <div class="logo"><span>CRM</span> Comercial</div>
@@ -618,7 +618,7 @@ var VEN=[
   {id:11,cid:24,pr:"MELIAN 3899",no:"Matias Rubio",uf:"Q2",ca:"Dueno",fc:new Date("2026-05-18T00:00:00"),co:"PROPIO"},
   {id:12,cid:26,pr:"VILELA 3399",no:"Pablo Costa",uf:"201",ca:"Dueno",fc:new Date("2026-05-19T00:00:00"),co:"PROPIO"}
 ];
-var PROG=[];
+var PROG=[{"id":11,"cid":40,"fe":"2026-06-30T03:00:00.000Z","ho":"15:00","pr":"VILELA 3399","no":"Simon","ca":"Dueno","nt":""},{"id":14,"cid":41,"fe":"2026-07-01T03:00:00.000Z","ho":"17:00","pr":"VILELA 3399","no":"Mirna","ca":"Dueno","nt":""},{"id":15,"cid":32,"fe":"2026-06-30T03:00:00.000Z","ho":"12:00","pr":"VILELA 3399","no":"Debora Kacowicz","ca":"Dueno","nt":""},{"id":16,"cid":46,"fe":"2026-06-30T03:00:00.000Z","ho":"16:00","pr":"VILELA 3399","no":"Mariano soso","ca":"Cotello","nt":""},{"id":17,"cid":37,"fe":"2026-06-29T03:00:00.000Z","ho":"15:00","pr":"VILELA 3399","no":"Silvia","ca":"QR","nt":""},{"id":18,"cid":64,"fe":"2026-06-30T03:00:00.000Z","ho":"16:30","pr":"Q2","no":"Luca q1","ca":"","nt":""},{"id":20,"cid":65,"fe":"2026-06-30T03:00:00.000Z","ho":"17:00","pr":"MELIAN 3899","no":"vanesa  arq","ca":"Cotello","nt":""}];
 var nxCL=46,nxVIS=38,nxVEN=13,nxPROG=1;
 var srtCol='_orden',srtAsc=true;
 var srtColV='fe',srtAscV=false;
@@ -1712,39 +1712,15 @@ function construirSnapshotCRM(src,pwd,fecha,hora){
 
   // Deshabilitar escritura en localStorage del snapshot
   src=src.replace(
-    "function guardarLocal(){",
+    "function guardarLocal(){ return; /* snapshot solo lectura */
+function _guardarLocalDisabled(){",
     "function guardarLocal(){ return; /* snapshot solo lectura */\nfunction _guardarLocalDisabled(){"
   );
 
   // Inyectar bloque snap con marcadores únicos para limpieza idempotente
   var ph=hashPwd(pwd);
   var snapBlock=
-    '<!--SNAP-START-->'+
-    '<style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style>'+
-    '<div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center">'+
-      '<div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)">'+
-        '<div style="font-size:32px;margin-bottom:10px">\uD83C\uDFE2</div>'+
-        '<div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div>'+
-        '<div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; '+fecha+' '+hora+'</div>'+
-        '<input id="snap-pi" type="password" placeholder="Contrase\u00F1a..." style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center">'+
-        '<div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contrase\u00F1a incorrecta</div>'+
-        '<button onclick="window.__snapLogin()" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button>'+
-      '</div>'+
-    '</div>'+
-    '<script>(function(){'+
-      'var ph='+ph+';'+
-      'window.__snapLogin=function(){'+
-        'var v=document.getElementById("snap-pi").value,h=0;'+
-        'for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}'+
-        'if(h===ph){document.getElementById("snap-ls").style.display="none";sessionStorage.setItem("crm_snap","1");}'+
-        'else{document.getElementById("snap-pe").style.display="block";document.getElementById("snap-pi").value="";}'+
-      '};'+
-      'document.addEventListener("keydown",function(e){if(e.key==="Enter")window.__snapLogin();});'+
-      'if(sessionStorage.getItem("crm_snap")==="1"){'+
-        'setTimeout(function(){var s=document.getElementById("snap-ls");if(s)s.style.display="none";},30);'+
-      '}else{setTimeout(function(){var i=document.getElementById("snap-pi");if(i)i.focus();},100);}'+
-    '})();<\/script>'+
-    '<!--SNAP-END-->';
+    '';
 
   src=src.replace('<body>','<body>'+snapBlock);
   return src;
