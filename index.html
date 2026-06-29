@@ -221,7 +221,7 @@ td{padding:8px 10px;font-size:13px;color:var(--tx);vertical-align:middle;overflo
   </div>
 </div>
 </head>
-<body><!--SNAP-START--><style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style><div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center"><div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)"><div style="font-size:32px;margin-bottom:10px">🏢</div><div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div><div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; 29/06/2026 05:04 p. m.</div><input id="snap-pi" type="password" placeholder="Contraseña..." style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center"><div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div><button onclick="window.__snapLogin()" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button></div></div><script>(function(){var ph=2000931436;window.__snapLogin=function(){var v=document.getElementById("snap-pi").value,h=0;for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}if(h===ph){document.getElementById("snap-ls").style.display="none";sessionStorage.setItem("crm_snap","1");}else{document.getElementById("snap-pe").style.display="block";document.getElementById("snap-pi").value="";}};document.addEventListener("keydown",function(e){if(e.key==="Enter")window.__snapLogin();});if(sessionStorage.getItem("crm_snap")==="1"){setTimeout(function(){var s=document.getElementById("snap-ls");if(s)s.style.display="none";},30);}else{setTimeout(function(){var i=document.getElementById("snap-pi");if(i)i.focus();},100);}})();</script><!--SNAP-END-->
+<body>
 <div class="app">
 <div class="topbar">
   <div class="logo"><span>CRM</span> Comercial</div>
@@ -358,17 +358,21 @@ td{padding:8px 10px;font-size:13px;color:var(--tx);vertical-align:middle;overflo
 
 <!-- METRICAS -->
 <div class="panel" id="panel-met">
-  <div class="toolbar" style="margin-bottom:12px">
-    <select id="met-period" onchange="rMet()" style="font-weight:500">
-      <option value="30">Ultimo mes (30d)</option>
-      <option value="60">Ultimos 2 meses</option>
-      <option value="90">Ultimos 3 meses</option>
-      <option value="180">Ultimos 6 meses</option>
-      <option value="365">Ultimo año</option>
-      <option value="all">Todo el tiempo</option>
-    </select>
-    <select id="met-proyecto" onchange="rMet()"><option value="">Todos los proyectos</option></select>
-    <span id="met-periodo-label" style="font-size:12px;color:var(--tx3);margin-left:4px"></span>
+  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+    <div style="display:flex;gap:4px;background:var(--sur2);border-radius:8px;padding:3px">
+      <button class="met-btn" data-p="30"   onclick="setMetPeriodo(this)" style="padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tx2)">Último mes</button>
+      <button class="met-btn" data-p="90"   onclick="setMetPeriodo(this)" style="padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tx2)">3 meses</button>
+      <button class="met-btn" data-p="180"  onclick="setMetPeriodo(this)" style="padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tx2)">6 meses</button>
+      <button class="met-btn" data-p="365"  onclick="setMetPeriodo(this)" style="padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tx2)">1 año</button>
+      <button class="met-btn active" data-p="all" onclick="setMetPeriodo(this)" style="padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:var(--acc);color:#000">Todo</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2)">
+      <span>Desde</span>
+      <input type="month" id="met-desde" onchange="setMetRango()" style="padding:4px 8px;border-radius:6px;border:.5px solid var(--bd2);background:var(--sur);color:var(--tx);font-size:12px;outline:none">
+      <span>hasta</span>
+      <input type="month" id="met-hasta" onchange="setMetRango()" style="padding:4px 8px;border-radius:6px;border:.5px solid var(--bd2);background:var(--sur);color:var(--tx);font-size:12px;outline:none">
+    </div>
+    <select id="met-proyecto" onchange="rMet()" style="padding:5px 10px;border-radius:6px;border:.5px solid var(--bd2);background:var(--sur);color:var(--tx);font-size:12px;outline:none"><option value="">Todos los proyectos</option></select>
   </div>
   <div style="background:var(--acc-bg);border:.5px solid var(--acc);border-radius:10px;padding:11px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px">
     <i class="ti ti-info-circle" style="font-size:16px;color:var(--acc-t);flex-shrink:0;margin-top:1px"></i>
@@ -992,7 +996,11 @@ function updVisAlert(){
 
 function rProg(){
   updProgBadge();
-  var sorted=[...PROG].sort(function(a,b){return (new Date(a.fe)||0)-(new Date(b.fe)||0);});
+  var sorted=[...PROG].sort(function(a,b){
+    var da=new Date((a.fe?new Date(a.fe).toISOString().slice(0,10):'9999-12-31')+'T'+(a.ho||'00:00')+':00');
+    var db=new Date((b.fe?new Date(b.fe).toISOString().slice(0,10):'9999-12-31')+'T'+(b.ho||'00:00')+':00');
+    return da-db;
+  });
   if(!sorted.length){document.getElementById('prog-content').innerHTML='<div class="empty"><i class="ti ti-calendar-off"></i>Sin visitas programadas.</div>';return;}
   var grupos={};sorted.forEach(function(p){var k=toI(p.fe)||'x';if(!grupos[k])grupos[k]={lb:fmtLg(p.fe),items:[]};grupos[k].items.push(p);});
   document.getElementById('prog-content').innerHTML=Object.entries(grupos).map(function(e){
@@ -1040,367 +1048,393 @@ function rVen(){
 }
 
 // ── METRICAS ──────────────────────────────────────────────────────────────────
-function rMet(){
-  // ── Filtros ──────────────────────────────────────────────────────────────
-  var periodoEl=document.getElementById('met-period');
-  var proyEl=document.getElementById('met-proyecto');
-  var periodo=periodoEl?periodoEl.value:'30';
-  var proyFilt=proyEl?proyEl.value:'';
+var _metDesde=null, _metHasta=null; // rango custom (Date objects)
 
+function setMetPeriodo(btn){
+  document.querySelectorAll('.met-btn').forEach(function(b){
+    b.style.background='transparent'; b.style.color='var(--tx2)';
+  });
+  btn.style.background='var(--acc)'; btn.style.color='#000';
+  _metDesde=null; _metHasta=null;
+  document.getElementById('met-desde').value='';
+  document.getElementById('met-hasta').value='';
+  window._metPeriodo=btn.dataset.p;
+  rMet();
+}
+
+function setMetRango(){
+  var d=document.getElementById('met-desde').value;
+  var h=document.getElementById('met-hasta').value;
+  if(d||h){
+    document.querySelectorAll('.met-btn').forEach(function(b){
+      b.style.background='transparent'; b.style.color='var(--tx2)';
+    });
+    _metDesde=d?new Date(d+'-01'):null;
+    if(h){var hd=new Date(h+'-01');hd.setMonth(hd.getMonth()+1);_metHasta=hd;}
+    else{_metHasta=null;}
+    window._metPeriodo='custom';
+    rMet();
+  }
+}
+
+function rMet(){
+  var proyFilt=(document.getElementById('met-proyecto')||{}).value||'';
+  var periodo=window._metPeriodo||'all';
+
+  // Calcular desde/hasta
   var ahora=new Date();
-  var desde=null;
-  if(periodo!=='all'){
+  var desde=null, hasta=ahora;
+  if(periodo==='custom'){
+    desde=_metDesde; hasta=_metHasta||ahora;
+  } else if(periodo!=='all'){
     desde=new Date(ahora.getTime()-parseInt(periodo)*86400000);
   }
 
-  // Etiqueta de periodo
-  var lbl=periodo==='all'?'Todo el tiempo':'Últimos '+periodo+' días';
-  if(proyFilt) lbl+=' · '+proyFilt;
-  var lblEl=document.getElementById('met-periodo-label');
-  if(lblEl)lblEl.textContent=lbl;
-
-  // Filtra por fecha de primer contacto y proyecto
-  function inRange(c){
-    if(proyFilt&&c.pr!==proyFilt)return false;
-    if(!desde)return true;
-    return c.pc&&new Date(c.pc)>=desde;
-  }
-  function inRangeV(v){
-    if(proyFilt&&v.pr!==proyFilt)return false;
-    if(!desde)return true;
-    return v.fe&&new Date(v.fe)>=desde;
-  }
-  function inRangeVen(v){
-    if(proyFilt&&v.pr!==proyFilt)return false;
-    if(!desde)return true;
-    // Si tiene clienteId, usa el pc del cliente; si no, usa fc
-    if(v.cid){var cl=CL.find(function(x){return x.id===v.cid;});return cl&&cl.pc&&new Date(cl.pc)>=desde;}
-    return v.fc&&new Date(v.fc)>=desde;
+  // ── Funciones de filtro ─────────────────────────────────────────────────
+  function inProj(pr){return !proyFilt||pr===proyFilt;}
+  function inWin(d){
+    if(!d)return false;
+    var dt=new Date(d);
+    if(desde&&dt<desde)return false;
+    if(hasta&&dt>hasta)return false;
+    return true;
   }
 
-  var leads=CL.filter(inRange);
-  var vis=VIS.filter(inRangeV);
-  var ven=VEN.filter(inRangeVen);
+  // Leads: filtrado por pc (cuándo entraron)
+  var leads=CL.filter(function(c){return inProj(c.pr)&&inWin(c.pc);});
+  // Cerrados: filtrado por uc (cuándo se cerraron)
+  var cerrados=CL.filter(function(c){return inProj(c.pr)&&c.es==='CERRADO'&&inWin(c.uc);});
+  // Caídos: filtrado por uc (cuándo se cayeron)
+  var caidos=CL.filter(function(c){return inProj(c.pr)&&c.es==='CAIDO'&&inWin(c.uc);});
+  // Visitas: filtrado por fe
+  var vis=VIS.filter(function(v){return inProj(v.pr)&&inWin(v.fe);});
+  // Ventas: filtrado por fc
+  var ven=VEN.filter(function(v){return inProj(v.pr)&&inWin(v.fc);});
+
+  var nLeads=leads.length;
+  var nCer=cerrados.length;
+  var nCai=caidos.length;
+  var nVen=ven.length;
 
   // ── Helpers ──────────────────────────────────────────────────────────────
   function diffD(a,b){if(!a||!b)return null;var d=Math.round((new Date(b)-new Date(a))/86400000);return d<0?0:d;}
   function avgArr(arr){var c=arr.filter(function(v){return v!==null&&!isNaN(v);});return c.length?c.reduce(function(s,v){return s+v;},0)/c.length:null;}
   function fv(v,dec){return v===null||v===undefined?'-':(+v).toFixed(dec!==undefined?dec:1);}
   function fd(v){return v===null||v===undefined?'-':Math.round(v)+'d';}
-  function pct(a,b){return b>0?((a/b)*100).toFixed(1)+'%':'-';}
+  function mesKey(d){if(!d)return null;var dt=new Date(d);return dt.getFullYear()+'-'+(dt.getMonth()<9?'0':'')+(dt.getMonth()+1);}
+  function mesLabel(k){if(!k)return '';var p=k.split('-');var mm=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return mm[parseInt(p[1])-1]+" '"+p[0].slice(2);}
 
-  // ── KPIs ─────────────────────────────────────────────────────────────────
+  // ── KPIs de proceso ──────────────────────────────────────────────────────
+  var leadsConVisita=leads.filter(function(c){return c.vis>0||VIS.some(function(v){return v.cid===c.id;});}).length;
+  var pctVisitaron=nLeads>0?((leadsConVisita/nLeads)*100).toFixed(0)+'%':'-';
 
-  // 1. Cantidad de leads (clientes ingresados en el periodo)
-  var nLeads=leads.length;
-
-  // 2. % de leads que visitaron — lead tiene visita vinculada en VIS o vis>0
-  var leadsConVisita=leads.filter(function(c){
-    if(c.vis>0)return true;
-    return VIS.some(function(v){return v.cid===c.id;});
-  }).length;
-  var pctVisitaron=nLeads>0?((leadsConVisita/nLeads)*100).toFixed(1)+'%':'-';
-
-  // 3. Cantidad de recontactos (suma de todos los seg de los leads del periodo)
   var totalRecontactos=leads.reduce(function(s,c){return s+(c.seg||0);},0);
-
-  // 4. Promedio de dias hasta el recontacto (actividad / contactos = cuántos dias entre cada contacto)
-  //    = (uc - pc) / seg para cada cliente, luego promedio
+  var avgRecontactos=avgArr(leads.map(function(c){return c.seg||0;}));
   var diasPorRecontacto=leads.filter(function(c){return c.pc&&c.uc&&c.seg>1;}).map(function(c){
-    var dur=diffD(c.pc,c.uc);return dur!==null&&c.seg>1?dur/(c.seg-1):null;
+    var dur=diffD(c.pc,c.uc);return dur!==null?dur/(c.seg-1):null;
   }).filter(function(v){return v!==null;});
   var avgDiasRecontacto=avgArr(diasPorRecontacto);
+  var interesados=CL.filter(function(c){return inProj(c.pr)&&(c.es==='NEGOCIANDO'||c.es==='INTERESADO');});
 
-  // 5. Promedio de recontactos (avg de seg por lead)
-  var avgRecontactos=avgArr(leads.map(function(c){return c.seg||0;}));
-
-  // 6. Promedio de dias hasta el cierre (uc-pc para cerrados en el periodo)
-  var cerrados=leads.filter(function(c){return c.es==='CERRADO'&&c.pc&&c.uc;});
+  // ── KPIs de cierre ───────────────────────────────────────────────────────
   var avgDiasCierre=avgArr(cerrados.map(function(c){return diffD(c.pc,c.uc);}));
-
-  // 7. Promedio de dias hasta caido (uc-pc para caidos en el periodo)
-  var caidos=leads.filter(function(c){return c.es==='CAIDO'&&c.pc&&c.uc;});
   var avgDiasCaido=avgArr(caidos.map(function(c){return diffD(c.pc,c.uc);}));
-
-  // 8. Promedio de visitas para cierre (vis de cerrados)
   var avgVisCierre=avgArr(cerrados.map(function(c){return c.vis||0;}));
-
-  // 8b. Promedio de recontactos para cerrar (seg de cerrados)
   var avgReconCierre=avgArr(cerrados.map(function(c){return c.seg||0;}));
 
-  // 9. Interesados por proyecto (NEGOCIANDO + INTERESADO del periodo)
-  var interesados=leads.filter(function(c){return c.es==='NEGOCIANDO'||c.es==='INTERESADO';});
-  var intByProy={};interesados.forEach(function(c){intByProy[c.pr]=(intByProy[c.pr]||0)+1;});
-
-  // 10. Tipo más buscado
-  var tipoCount={};leads.filter(function(c){return c.ti;}).forEach(function(c){tipoCount[c.ti]=(tipoCount[c.ti]||0)+1;});
-  var topTipo=Object.entries(tipoCount).sort(function(a,b){return b[1]-a[1];})[0];
-
-  // 11. Leads por canal
-  var leadsByCanal={};leads.filter(function(c){return c.ca;}).forEach(function(c){leadsByCanal[c.ca]=(leadsByCanal[c.ca]||0)+1;});
-
-  // 12. Visitas por canal
-  var visByCanal={};vis.filter(function(v){return v.ca;}).forEach(function(v){visByCanal[v.ca]=(visByCanal[v.ca]||0)+1;});
-
-  // 13. Ventas por canal
+  // ── Distribuciones por canal ──────────────────────────────────────────────
+  var leadsByCanal={};leads.forEach(function(c){if(c.ca)leadsByCanal[c.ca]=(leadsByCanal[c.ca]||0)+1;});
   var venByCanal={};ven.forEach(function(v){
-    var ca=v.ca;
-    if(!ca&&v.cid){var cl=CL.find(function(x){return x.id===v.cid;});if(cl)ca=cl.ca;}
+    var ca=v.ca||(function(){var cl=CL.find(function(x){return x.id===v.cid;});return cl?cl.ca:'';})();
     if(ca)venByCanal[ca]=(venByCanal[ca]||0)+1;
   });
+  var visByCanal={};vis.forEach(function(v){if(v.ca)visByCanal[v.ca]=(visByCanal[v.ca]||0)+1;});
+  var tipoCount={};leads.forEach(function(c){if(c.ti)tipoCount[c.ti]=(tipoCount[c.ti]||0)+1;});
 
   // ── Mes a mes ────────────────────────────────────────────────────────────
-  // Collect all months that appear in leads or visitas del periodo
-  function mesKey(d){if(!d)return null;var dt=new Date(d);return dt.getFullYear()+'-'+(dt.getMonth()+1<10?'0':'')+(dt.getMonth()+1);}
-  function mesLabel(k){if(!k)return '';var p=k.split('-');var meses=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return meses[parseInt(p[1])-1]+' '+p[0].slice(2);}
+  // Recolectar todos los meses que tienen actividad (leads, cierres, ventas)
   var mesesSet={};
-  leads.forEach(function(c){var k=mesKey(c.pc);if(k)mesesSet[k]=1;});
-  vis.forEach(function(v){var k=mesKey(v.fe);if(k)mesesSet[k]=1;});
+  CL.filter(function(c){return inProj(c.pr);}).forEach(function(c){
+    var k=mesKey(c.pc);if(k&&inWin(c.pc))mesesSet[k]=1;
+    if(c.es==='CERRADO'){var k2=mesKey(c.uc);if(k2&&inWin(c.uc))mesesSet[k2]=1;}
+  });
+  VEN.filter(function(v){return inProj(v.pr);}).forEach(function(v){var k=mesKey(v.fc);if(k&&inWin(v.fc))mesesSet[k]=1;});
+  VIS.filter(function(v){return inProj(v.pr);}).forEach(function(v){var k=mesKey(v.fe);if(k&&inWin(v.fe))mesesSet[k]=1;});
   var mesesOrden=Object.keys(mesesSet).sort();
+
   var mesByMes=mesesOrden.map(function(k){
-    return {
-      k:k, lb:mesLabel(k),
-      leads:leads.filter(function(c){return mesKey(c.pc)===k;}).length,
-      vis:vis.filter(function(v){return mesKey(v.fe)===k;}).length,
-    };
+    var leadsM=CL.filter(function(c){return inProj(c.pr)&&mesKey(c.pc)===k;}).length;
+    var cerM=CL.filter(function(c){return inProj(c.pr)&&c.es==='CERRADO'&&mesKey(c.uc)===k;}).length;
+    var venM=VEN.filter(function(v){return inProj(v.pr)&&mesKey(v.fc)===k;}).length;
+    var visM=VIS.filter(function(v){return inProj(v.pr)&&mesKey(v.fe)===k;}).length;
+    return {k:k,lb:mesLabel(k),leads:leadsM,cer:cerM,ven:venM,vis:visM};
   });
 
-  // ── Datos extra para tabla de canales ────────────────────────────────────
-  var allCanales=[...new Set([
-    ...Object.keys(leadsByCanal),
-    ...Object.keys(visByCanal),
-    ...Object.keys(venByCanal)
-  ])].sort(function(a,b){
-    var tot=(leadsByCanal[b]||0)+(visByCanal[b]||0)+(venByCanal[b]||0);
-    var tota=(leadsByCanal[a]||0)+(visByCanal[a]||0)+(venByCanal[a]||0);
-    return tot-tota;
+  // ── Canales mes a mes ────────────────────────────────────────────────────
+  var canalesActivos=[...new Set(leads.map(function(c){return c.ca;}).filter(Boolean))].sort();
+  var CANAL_COLORS=['#60a5fa','#34d399','#f59e0b','#f87171','#a78bfa','#fb923c','#e879f9','#2dd4bf'];
+
+  // ── Tabla proyectos ──────────────────────────────────────────────────────
+  var allProys=[...new Set(CL.filter(function(c){return inProj(c.pr);}).map(function(c){return c.pr;}))].sort();
+  var proyStats={};
+  CL.filter(function(c){return inProj(c.pr);}).forEach(function(c){
+    if(!proyStats[c.pr])proyStats[c.pr]={leads:0,neg:0,int:0,cl:0,cer:0,cai:0};
+    if(inWin(c.pc))proyStats[c.pr].leads++;
+    if(c.es==='NEGOCIANDO')proyStats[c.pr].neg++;
+    else if(c.es==='INTERESADO')proyStats[c.pr].int++;
+    else if(c.es==='CONTACTAR LUEGO')proyStats[c.pr].cl++;
+    else if(c.es==='CERRADO'&&inWin(c.uc))proyStats[c.pr].cer++;
+    else if(c.es==='CAIDO'&&inWin(c.uc))proyStats[c.pr].cai++;
   });
 
-  // Datos para tabla de proyectos
-  var allProys=[...new Set(leads.map(function(c){return c.pr;}))].sort();
-  var intEstados={};
-  leads.forEach(function(c){
-    if(!intEstados[c.pr])intEstados[c.pr]={neg:0,int:0,cl:0,cer:0,cai:0,tot:0};
-    intEstados[c.pr].tot++;
-    if(c.es==='NEGOCIANDO')intEstados[c.pr].neg++;
-    else if(c.es==='INTERESADO')intEstados[c.pr].int++;
-    else if(c.es==='CONTACTAR LUEGO')intEstados[c.pr].cl++;
-    else if(c.es==='CERRADO')intEstados[c.pr].cer++;
-    else if(c.es==='CAIDO')intEstados[c.pr].cai++;
-  });
-
-  // Funnel %
-  var pctCierre=nLeads>0?((cerrados.length/nLeads)*100).toFixed(0)+'%':'-';
-  var pctCaido=nLeads>0?((caidos.length/nLeads)*100).toFixed(0)+'%':'-';
-
-  // ── Renders ──────────────────────────────────────────────────────────────
+  // ── Render helpers ────────────────────────────────────────────────────────
   function heroKpi(icon,label,value,sub,color,bg){
-    return '<div style="background:'+bg+';border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px;border:.5px solid var(--bd)">'+
-      '<div style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:'+color+';text-transform:uppercase;letter-spacing:.5px">'+
-        '<i class="'+icon+'" style="font-size:14px"></i>'+label+
-      '</div>'+
-      '<div style="font-size:30px;font-weight:700;color:'+color+';line-height:1.1">'+value+'</div>'+
-      (sub?'<div style="font-size:11px;color:var(--tx3)">'+sub+'</div>':'')+
+    return '<div style="background:'+bg+';border-radius:12px;padding:16px 18px;border:.5px solid var(--bd)">'+
+      '<div style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:'+color+';text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">'+
+        '<i class="'+icon+'" style="font-size:14px"></i>'+label+'</div>'+
+      '<div style="font-size:32px;font-weight:700;color:'+color+';line-height:1">'+value+'</div>'+
+      (sub?'<div style="font-size:11px;color:var(--tx3);margin-top:4px">'+sub+'</div>':'')+
     '</div>';
   }
-
   function statRow(label,value,color){
     return '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:.5px solid var(--bd)">'+
       '<span style="font-size:13px;color:var(--tx2)">'+label+'</span>'+
-      '<span style="font-size:15px;font-weight:600;'+(color?'color:'+color:'')+'">'+(value||'-')+'</span>'+
+      '<span style="font-size:15px;font-weight:600;'+(color?'color:'+color:'')+'">'+value+'</span>'+
     '</div>';
   }
-
   function card(title,icon,content){
     return '<div style="background:var(--sur);border:.5px solid var(--bd);border-radius:12px;padding:16px 18px">'+
       '<div style="font-size:12px;font-weight:600;color:var(--tx2);display:flex;align-items:center;gap:6px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px">'+
-        '<i class="'+icon+'" style="font-size:15px;color:var(--tx3)"></i>'+title+
-      '</div>'+
-      content+
-    '</div>';
+        '<i class="'+icon+'" style="font-size:15px;color:var(--tx3)"></i>'+title+'</div>'+
+      content+'</div>';
   }
-
   function barH(obj,color){
     if(!Object.keys(obj).length)return '<p style="color:var(--tx3);font-size:12px;padding:4px 0">Sin datos en el periodo</p>';
     var mx=Math.max.apply(null,Object.values(obj).concat([1]));
     return Object.entries(obj).sort(function(a,b){return b[1]-a[1];}).map(function(e){
-      var pct=((e[1]/mx)*100).toFixed(0);
+      var p=((e[1]/mx)*100).toFixed(0);
       return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'+
-        '<div style="width:100px;font-size:12px;color:var(--tx2);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+e[0]+'">'+e[0]+'</div>'+
+        '<div style="width:110px;font-size:12px;color:var(--tx2);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e[0]+'</div>'+
         '<div style="flex:1;background:var(--sur2);border-radius:4px;height:8px;overflow:hidden">'+
-          '<div style="width:'+pct+'%;height:100%;background:'+color+';border-radius:4px;transition:width .4s"></div>'+
-        '</div>'+
+          '<div style="width:'+p+'%;height:100%;background:'+color+';border-radius:4px"></div></div>'+
         '<div style="font-size:12px;font-weight:600;color:var(--tx);min-width:24px;text-align:right">'+e[1]+'</div>'+
       '</div>';
     }).join('');
   }
-
   function funnelBar(label,count,total,color){
-    var p=total>0?((count/total)*100).toFixed(0):0;
+    var p=total>0?Math.round(count/total*100):0;
     return '<div style="margin-bottom:12px">'+
       '<div style="display:flex;justify-content:space-between;margin-bottom:4px">'+
         '<span style="font-size:12px;color:var(--tx2)">'+label+'</span>'+
-        '<span style="font-size:12px;font-weight:600;color:'+color+'">'+count+' <span style="color:var(--tx3);font-weight:400">('+p+'%)</span></span>'+
-      '</div>'+
+        '<span style="font-size:12px;font-weight:600;color:'+color+'">'+count+
+          ' <span style="color:var(--tx3);font-weight:400">('+p+'%)</span></span></div>'+
       '<div style="background:var(--sur2);border-radius:4px;height:10px;overflow:hidden">'+
-        '<div style="width:'+p+'%;height:100%;background:'+color+';border-radius:4px;transition:width .4s"></div>'+
-      '</div>'+
+        '<div style="width:'+p+'%;height:100%;background:'+color+';border-radius:4px"></div></div>'+
     '</div>';
   }
 
+  // ── GRÁFICO MES A MES (SVG) ──────────────────────────────────────────────
+  function buildChart(){
+    if(!mesByMes.length)return '<p style="color:var(--tx3);font-size:12px;padding:20px 0;text-align:center">Sin datos en el periodo</p>';
+    var n=mesByMes.length;
+    var W=Math.max(560,n*80+80), H=260, pL=44, pR=16, pT=20, pB=48;
+    var cW=W-pL-pR, cH=H-pT-pB;
+    var maxVal=Math.max.apply(null,mesByMes.map(function(m){return Math.max(m.leads,m.cer,m.ven,m.vis);}));
+    if(maxVal<1)maxVal=1;
+    var xP=function(i){return pL+Math.round(i*(cW/(Math.max(n-1,1))));};
+    var yP=function(v){return pT+cH-Math.round(v/maxVal*cH);};
+
+    // Grid lines
+    var grid='';
+    var ticks=[0,Math.round(maxVal*0.25),Math.round(maxVal*0.5),Math.round(maxVal*0.75),maxVal];
+    var seenTicks={};
+    ticks.forEach(function(v){
+      if(seenTicks[v])return; seenTicks[v]=1;
+      var y=yP(v);
+      grid+='<line x1="'+pL+'" y1="'+y+'" x2="'+(W-pR)+'" y2="'+y+'" stroke="#333" stroke-width="0.5"/>';
+      grid+='<text x="'+(pL-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="#888">'+v+'</text>';
+    });
+
+    // Helper: draw a line series with dots and labels
+    function lineSeries(key,color,dash){
+      if(!mesByMes.some(function(m){return m[key]>0;}))return '';
+      var pts=mesByMes.map(function(m,i){return xP(i)+','+yP(m[key]);}).join(' ');
+      var dots=mesByMes.map(function(m,i){
+        if(m[key]===0)return '';
+        var x=xP(i),y=yP(m[key]);
+        var labelY=m[key]>0?y-8:y+16;
+        return '<circle cx="'+x+'" cy="'+y+'" r="4" fill="'+color+'" stroke="#111" stroke-width="1.5"/>'+
+          '<text x="'+x+'" y="'+labelY+'" text-anchor="middle" font-size="11" fill="'+color+'" font-weight="bold">'+m[key]+'</text>';
+      }).join('');
+      return '<polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="2.5"'+(dash?' stroke-dasharray="6,3"':'')+' stroke-linejoin="round" stroke-linecap="round"/>'+dots;
+    }
+
+    // X labels
+    var xlbls=mesByMes.map(function(m,i){
+      var x=xP(i);
+      return '<text x="'+x+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#aaa">'+m.lb+'</text>';
+    }).join('');
+
+    // Separadores verticales suaves
+    var vlines=mesByMes.map(function(m,i){
+      return '<line x1="'+xP(i)+'" y1="'+pT+'" x2="'+xP(i)+'" y2="'+(pT+cH)+'" stroke="#2a2a2a" stroke-width="1"/>';
+    }).join('');
+
+    // Legend
+    var legend=[
+      {color:'#60a5fa',label:'Leads'},
+      {color:'#34d399',label:'Cerrados'},
+      {color:'#f59e0b',label:'Ventas'},
+      {color:'#f87171',label:'Visitas',dash:true}
+    ].map(function(s){
+      return '<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#ccc">'+
+        '<div style="width:18px;height:3px;background:'+s.color+';border-radius:2px'+(s.dash?';background:repeating-linear-gradient(90deg,'+s.color+' 0,'+s.color+' 5px,transparent 5px,transparent 9px)':'')+'">'+'</div>'+
+        s.label+'</div>';
+    }).join('');
+
+    var needScroll=n>8;
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:'+(needScroll?W+'px':'100%')+';height:'+H+'px;display:block">'+
+      grid+vlines+
+      lineSeries('leads','#60a5fa',false)+
+      lineSeries('cer','#34d399',false)+
+      lineSeries('ven','#f59e0b',false)+
+      lineSeries('vis','#f87171',true)+
+      xlbls+
+    '</svg>';
+
+    return '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px">'+legend+'</div>'+
+      (needScroll?'<div style="overflow-x:auto">'+svg+'</div>':svg);
+  }
+
+  // ── GRÁFICO DE BARRAS POR CANAL MES A MES ────────────────────────────────
+  function buildCanalChart(){
+    if(!canalesActivos.length||!mesesOrden.length)return '<p style="color:var(--tx3);font-size:12px;padding:20px 0;text-align:center">Sin datos en el periodo</p>';
+    var n=mesesOrden.length, nc=canalesActivos.length;
+    var barW=Math.max(14,Math.min(32,Math.floor(560/n/nc)-2));
+    var gapG=4; // gap between groups
+    var groupW=nc*barW+(nc-1)*2+gapG;
+    var W=Math.max(560,n*groupW+80), H=220, pL=40, pR=16, pT=20, pB=44;
+    var cW=W-pL-pR, cH=H-pT-pB;
+
+    // max leads per canal per mes
+    var maxV=1;
+    mesesOrden.forEach(function(k){
+      canalesActivos.forEach(function(ca){
+        var v=leads.filter(function(c){return c.ca===ca&&mesKey(c.pc)===k;}).length;
+        if(v>maxV)maxV=v;
+      });
+    });
+
+    var grid='';
+    [0,Math.ceil(maxV/2),maxV].forEach(function(v){
+      var y=pT+cH-Math.round(v/maxV*cH);
+      grid+='<line x1="'+pL+'" y1="'+y+'" x2="'+(W-pR)+'" y2="'+y+'" stroke="#333" stroke-width="0.5"/>';
+      if(v>0)grid+='<text x="'+(pL-5)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="#888">'+v+'</text>';
+    });
+
+    var bars='', xlbls='';
+    var xStep=cW/n;
+    mesesOrden.forEach(function(k,gi){
+      var gx=pL+Math.round(gi*xStep+xStep/2-groupW/2);
+      canalesActivos.forEach(function(ca,ci){
+        var v=leads.filter(function(c){return c.ca===ca&&mesKey(c.pc)===k;}).length;
+        var color=CANAL_COLORS[ci%CANAL_COLORS.length];
+        var bh=Math.max(2,Math.round(v/maxV*cH));
+        var bx=gx+ci*(barW+2);
+        var by=pT+cH-bh;
+        bars+='<rect x="'+bx+'" y="'+by+'" width="'+barW+'" height="'+bh+'" fill="'+color+'" rx="2" opacity="0.88"/>';
+        if(v>0)bars+='<text x="'+(bx+barW/2)+'" y="'+(by-4)+'" text-anchor="middle" font-size="10" fill="'+color+'" font-weight="bold">'+v+'</text>';
+      });
+      // x label centrado en el grupo
+      var cx=gx+groupW/2;
+      xlbls+='<text x="'+cx+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="#aaa">'+mesLabel(k)+'</text>';
+    });
+
+    var legend=canalesActivos.map(function(ca,i){
+      return '<div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#ccc">'+
+        '<div style="width:10px;height:10px;border-radius:2px;background:'+CANAL_COLORS[i%CANAL_COLORS.length]+'"></div>'+ca+'</div>';
+    }).join('');
+
+    var needScroll=n>6;
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:'+(needScroll?W+'px':'100%')+';height:'+H+'px;display:block">'+
+      grid+bars+xlbls+'</svg>';
+
+    return '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px">'+legend+'</div>'+
+      (needScroll?'<div style="overflow-x:auto">'+svg+'</div>':svg);
+  }
+
+  // ── RENDER ───────────────────────────────────────────────────────────────
   document.getElementById('met-content').innerHTML=
 
-  // ── ROW 1: Hero KPIs ─────────────────────────────────────────────────────
-  '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">'+
-    heroKpi('ti ti-users','Leads',nLeads,'ingresados en el periodo','var(--acc)','var(--acc-bg)')+
-    heroKpi('ti ti-door-enter','Visitaron',leadsConVisita+' <span style="font-size:16px;font-weight:500">('+pctVisitaron+')</span>','del total de leads','var(--int)','var(--int-bg)')+
-    heroKpi('ti ti-check-circle','Cerrados',cerrados.length+' <span style="font-size:16px;font-weight:500">('+pctCierre+')</span>','tasa de cierre del periodo','var(--suc)','var(--suc-bg)')+
-    heroKpi('ti ti-x','Caidos',caidos.length+' <span style="font-size:16px;font-weight:500">('+pctCaido+')</span>','tasa de caída del periodo','var(--cai)','var(--cai-bg)')+
+  // ROW 1: Hero KPIs — cada uno con su propio criterio de fecha
+  '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px">'+
+    heroKpi('ti ti-users','Leads',nLeads,'ingresados en el período (por pc)','var(--acc)','var(--acc-bg)')+
+    heroKpi('ti ti-door-enter','Visitaron',leadsConVisita+' <small style="font-size:18px">('+pctVisitaron+')</small>','de leads del período','var(--int)','var(--int-bg)')+
+    heroKpi('ti ti-check-circle','Cerrados',nCer,'por fecha de cierre (uc)','var(--suc)','var(--suc-bg)')+
+    heroKpi('ti ti-x','Caídos',nCai,'por fecha de caída (uc)','var(--cai)','var(--cai-bg)')+
+    heroKpi('ti ti-currency-dollar','Ventas',nVen,'por fecha de venta (fc)','var(--cer)','rgba(99,102,241,.12)')+
   '</div>'+
 
-  // ── ROW 2: 3 columnas ────────────────────────────────────────────────────
-  '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">'+
+  // ROW 2: Gráfico mes a mes
+  card('Evolución mensual — Leads · Cerrados · Ventas · Visitas','ti ti-chart-line',buildChart())+
+  '<div style="margin-bottom:14px"></div>'+
 
-    // Columna 1: Stats de proceso
-    card('Estadísticas del proceso','ti ti-activity',
-      statRow('Total recontactos',totalRecontactos,'')+
+  // ROW 3: Estadísticas + funnel
+  '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">'+
+    card('Proceso','ti ti-activity',
+      statRow('Total recontactos en período',totalRecontactos||'-','')+
       statRow('Prom. recontactos / lead',fv(avgRecontactos,1),'')+
       statRow('Prom. días entre recontactos',fd(avgDiasRecontacto),'')+
-      statRow('Interesados activos',interesados.length,'var(--neg)')
+      statRow('Interesados activos (sin filtro fecha)',interesados.length,'var(--neg)')
     )+
-
-    // Columna 2: Stats de cierre
-    card('Estadísticas de cierre','ti ti-trophy',
+    card('Cierre','ti ti-trophy',
       statRow('Días prom. hasta cerrar',fd(avgDiasCierre),'var(--suc)')+
       statRow('Recontactos prom. para cerrar',fv(avgReconCierre,1),'var(--suc)')+
       statRow('Visitas prom. para cerrar',fv(avgVisCierre,1),'var(--suc)')+
-      statRow('Días prom. hasta caído',fd(avgDiasCaido),'var(--cai)')
+      statRow('Días prom. hasta caer',fd(avgDiasCaido),'var(--cai)')
     )+
-
-    // Columna 3: Tipo buscado
-    card('Tipo de unidad más buscada','ti ti-building',barH(tipoCount,'var(--int)'))+
-
-  '</div>'+
-
-  // ── ROW 3: Funnel + Tabla proyectos ──────────────────────────────────────
-  '<div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;margin-bottom:16px">'+
-
-    // Embudo visual
-    card('Embudo de leads','ti ti-filter',
-      funnelBar('Total leads',nLeads,nLeads,'var(--acc)')+
+    card('Embudo (leads del período)','ti ti-filter',
+      funnelBar('Leads',nLeads,nLeads,'var(--acc)')+
       funnelBar('Visitaron',leadsConVisita,nLeads,'var(--int)')+
-      funnelBar('Interesados',interesados.length,nLeads,'var(--neg)')+
-      funnelBar('Cerrados',cerrados.length,nLeads,'var(--suc)')+
-      funnelBar('Caídos',caidos.length,nLeads,'var(--cai)')
+      funnelBar('Cerrados*',nCer,nLeads,'var(--suc)')+
+      funnelBar('Caídos*',nCai,nLeads,'var(--cai)')+
+      '<p style="font-size:10px;color:var(--tx3);margin-top:8px">* cerrados/caídos por fecha de cierre, no de ingreso</p>'
     )+
-
-    // Tabla por proyecto
-    card('Leads por proyecto y estado','ti ti-table',
-      (allProys.length?
-        '<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;table-layout:fixed">'+
-        '<thead><tr>'+
-          '<th style="text-align:left;font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">Proyecto</th>'+
-          '<th style="text-align:center;font-size:10px;font-weight:600;color:var(--neg);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">🔥 Neg.</th>'+
-          '<th style="text-align:center;font-size:10px;font-weight:600;color:var(--int);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">⭐ Int.</th>'+
-          '<th style="text-align:center;font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">⏰ C.Luego</th>'+
-          '<th style="text-align:center;font-size:10px;font-weight:600;color:var(--suc);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">✓ Cerr.</th>'+
-          '<th style="text-align:center;font-size:10px;font-weight:600;color:var(--cai);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">✗ Caído</th>'+
-          '<th style="text-align:center;font-size:10px;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:.5px solid var(--bd2)">Total</th>'+
-        '</tr></thead><tbody>'+
-        allProys.map(function(pr){
-          var r=intEstados[pr]||{neg:0,int:0,cl:0,cer:0,cai:0,tot:0};
-          return '<tr style="border-bottom:.5px solid var(--bd)">'+
-            '<td style="font-size:12px;font-weight:500;padding:7px 8px;color:var(--tx)">'+pr+'</td>'+
-            '<td style="text-align:center;font-size:12px;padding:7px 8px;color:var(--neg);font-weight:'+(r.neg?'600':'400')+'">'+r.neg+'</td>'+
-            '<td style="text-align:center;font-size:12px;padding:7px 8px;color:var(--int);font-weight:'+(r.int?'600':'400')+'">'+r.int+'</td>'+
-            '<td style="text-align:center;font-size:12px;padding:7px 8px;color:var(--tx2)">'+r.cl+'</td>'+
-            '<td style="text-align:center;font-size:12px;padding:7px 8px;color:var(--suc);font-weight:'+(r.cer?'600':'400')+'">'+r.cer+'</td>'+
-            '<td style="text-align:center;font-size:12px;padding:7px 8px;color:var(--cai)">'+r.cai+'</td>'+
-            '<td style="text-align:center;font-size:12px;font-weight:600;padding:7px 8px;color:var(--tx)">'+r.tot+'</td>'+
-          '</tr>';
-        }).join('')+
-        '</tbody></table></div>'
-      :'<p style="color:var(--tx3);font-size:12px">Sin datos en el periodo</p>')
-    )+
-
   '</div>'+
 
-  // ── ROW 4: Gráfico mes a mes ──────────────────────────────────────────────
-  (mesByMes.length>=1?
-    card('Leads y visitas por mes','ti ti-chart-bar',
-      (function(){
-        var n=mesByMes.length;
-        var PAD_L=8, PAD_R=8, PAD_T=28, PAD_B=44;
-        var chartH=160;
-        // Each month group gets equal share of width; min 80px per group
-        var groupW=Math.max(80, Math.floor((720-PAD_L-PAD_R)/n));
-        var totalW=PAD_L+PAD_R+n*groupW;
-        var barW=Math.round(groupW*0.28);
-        var gap=Math.round(groupW*0.06);
-        var svgH=PAD_T+chartH+PAD_B;
+  // ROW 4: Gráfico canales + tipo
+  '<div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:14px">'+
+    card('Leads por canal mes a mes','ti ti-chart-bar',buildCanalChart())+
+    card('Tipo de unidad','ti ti-building',barH(tipoCount,'var(--int)'))+
+  '</div>'+
 
-        var maxVal=Math.max.apply(null,mesByMes.map(function(m){return Math.max(m.leads,m.vis);}).concat([1]));
-        // Round up maxVal to a nice number
-        var step=maxVal<=5?1:maxVal<=10?2:maxVal<=20?5:10;
-        var niceMax=Math.ceil(maxVal/step)*step;
-
-        // Y grid lines
-        var gridLines='';
-        for(var gi=0;gi<=niceMax;gi+=step){
-          var gy=PAD_T+chartH-Math.round((gi/niceMax)*chartH);
-          gridLines+='<line x1="'+PAD_L+'" y1="'+gy+'" x2="'+(totalW-PAD_R)+'" y2="'+gy+'" stroke="var(--bd2)" stroke-width="'+(gi===0?'1':'.5')+'" stroke-dasharray="'+(gi===0?'none':'3,3')+'"/>';
-          if(gi>0)gridLines+='<text x="'+PAD_L+'" y="'+(gy-3)+'" font-size="9" fill="var(--tx3)" text-anchor="start">'+gi+'</text>';
-        }
-
-        var groupsHTML=mesByMes.map(function(m,i){
-          var gx=PAD_L+i*groupW;
-          var cx=gx+groupW/2;
-
-          var hL=niceMax>0?Math.round((m.leads/niceMax)*chartH):0;
-          var hV=niceMax>0?Math.round((m.vis/niceMax)*chartH):0;
-          var yL=PAD_T+chartH-hL;
-          var yV=PAD_T+chartH-hV;
-          var bxL=cx-barW-gap/2;
-          var bxV=cx+gap/2;
-
-          // Month separator (left edge of group, skip first)
-          var sep=i>0?'<line x1="'+gx+'" y1="'+PAD_T+'" x2="'+gx+'" y2="'+(PAD_T+chartH)+'" stroke="var(--bd2)" stroke-width="1" stroke-dasharray="4,4"/>':'';
-
-          // Bars
-          var barL=hL>0?'<rect x="'+bxL+'" y="'+yL+'" width="'+barW+'" height="'+hL+'" rx="3" fill="var(--acc)"/>':'';
-          var barV=hV>0?'<rect x="'+bxV+'" y="'+yV+'" width="'+barW+'" height="'+hV+'" rx="3" fill="var(--warn)"/>':'';
-
-          // Numbers above bars (only if value > 0)
-          var numL=m.leads>0?'<text x="'+(bxL+barW/2)+'" y="'+(yL-5)+'" text-anchor="middle" font-size="10" font-weight="700" fill="var(--acc)">'+m.leads+'</text>':'';
-          var numV=m.vis>0?'<text x="'+(bxV+barW/2)+'" y="'+(yV-5)+'" text-anchor="middle" font-size="10" font-weight="700" fill="var(--warn)">'+m.vis+'</text>':'';
-
-          // Month label centered below group
-          var lbl='<text x="'+cx+'" y="'+(PAD_T+chartH+16)+'" text-anchor="middle" font-size="11" font-weight="500" fill="var(--tx2)">'+m.lb+'</text>';
-
-          return sep+barL+barV+numL+numV+lbl;
-        }).join('');
-
-        // Legend
-        var legend='<text x="'+(PAD_L+4)+'" y="'+(svgH-8)+'" font-size="11" font-weight="600" fill="var(--acc)">■ Leads</text>'+
-          '<text x="'+(PAD_L+60)+'" y="'+(svgH-8)+'" font-size="11" font-weight="600" fill="var(--warn)">■ Visitas</text>';
-
-        // Baseline
-        var baseline='<line x1="'+PAD_L+'" y1="'+(PAD_T+chartH)+'" x2="'+(totalW-PAD_R)+'" y2="'+(PAD_T+chartH)+'" stroke="var(--bd2)" stroke-width="1"/>';
-
-        return '<div style="overflow-x:auto;overflow-y:visible">'+
-          '<svg width="'+totalW+'" height="'+svgH+'" style="display:block;min-width:100%">'+
-          gridLines+baseline+groupsHTML+legend+
-          '</svg></div>';
-      })()
-    )
-  :'')+
-
-  // ── ROW 5: Canales — 3 barras separadas ───────────────────────────────────
-  '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px">'+
+  // ROW 5: Canales + tabla proyectos
+  '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">'+
     card('Leads por canal','ti ti-users',barH(leadsByCanal,'var(--acc)'))+
     card('Visitas por canal','ti ti-door-enter',barH(visByCanal,'var(--warn)'))+
     card('Ventas por canal','ti ti-check-circle',barH(venByCanal,'var(--cer)'))+
-  '</div>';
+  '</div>'+
+
+  // ROW 6: Tabla por proyecto
+  card('Por proyecto','ti ti-table',
+    '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'+
+    '<thead><tr>'+
+      ['Proyecto','Leads','🔥 Neg.','⭐ Int.','⏰ C.L.','✓ Cerr.*','✗ Caído*'].map(function(h,i){
+        return '<th style="text-align:'+(i===0?'left':'center')+';font-size:11px;font-weight:600;color:var(--tx3);padding:7px 8px;border-bottom:.5px solid var(--bd2);white-space:nowrap">'+h+'</th>';
+      }).join('')+
+    '</tr></thead><tbody>'+
+    allProys.map(function(pr){
+      var s=proyStats[pr]||{leads:0,neg:0,int:0,cl:0,cer:0,cai:0};
+      return '<tr>'+
+        '<td style="font-size:13px;font-weight:600;color:var(--tx);padding:7px 8px;border-bottom:.5px solid var(--bd)">'+pr+'</td>'+
+        [s.leads,s.neg,s.int,s.cl,s.cer,s.cai].map(function(v){
+          return '<td style="text-align:center;font-size:13px;color:var(--tx2);padding:7px 8px;border-bottom:.5px solid var(--bd)">'+v+'</td>';
+        }).join('')+
+      '</tr>';
+    }).join('')+
+    '</tbody></table></div>'+
+    '<p style="font-size:10px;color:var(--tx3);margin-top:8px">Leads: por pc · Cerr./Caído: por uc · Neg/Int/CL: estado actual sin filtro de fecha</p>'
+  );
 }
 
 // ── MAIN MODAL ────────────────────────────────────────────────────────────────
@@ -1718,16 +1752,16 @@ function construirSnapshotCRM(src,pwd,fecha,hora){
     '})();'+
     '<\/script>';
 
-  // Insertar override justo antes de <script id="snap-data-override">(function(){var _d=[{"id":10,"pr":"MELIAN 3899","no":"Agustin junin","wa":"549113580-4531","ca":"Dueno","ti":"","uf":"4 amb","ed":"50","ec":"","pc":"2026-02-24T03:00:00.000Z","uc":"2026-03-17T03:00:00.000Z","seg":5,"vis":0,"es":"CAIDO","co":"INVERSION","_orden":3,"_alerta":2},{"id":4,"pr":"MELIAN 3899","no":"Alejandro Calderon","wa":"549116486-4975","ca":"Cotello","ti":"","uf":"","ed":"65","ec":"","pc":"2025-11-27T03:00:00.000Z","uc":"2026-03-17T03:00:00.000Z","seg":5,"vis":1,"es":"CAIDO","co":"PROPIO","_orden":3,"_alerta":2},{"id":54,"pr":"MELIAN 3899","no":"ana casal","wa":"54 9 11 3843-6548","ca":"Dueno","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-05T03:00:00.000Z","uc":"2026-06-25T03:00:00.000Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":62,"pr":"","no":"andrea albernaz","wa":"","ca":"","ti":"","uf":"","ed":"","ec":"","pc":"2026-04-21T03:00:00.000Z","uc":"2026-06-25T15:42:24.367Z","seg":5,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":33,"pr":"MELIAN 3899","no":"Andres españa","wa":"3462833-1249","ca":"Cotello","ti":"","uf":"","ed":"55","ec":"","pc":"2026-06-10T03:00:00.000Z","uc":"2026-06-25T14:56:51.039Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"INVERSION","_orden":2,"_alerta":2},{"id":45,"pr":"VILELA 3400","no":"Andres Neuquen","wa":"549299516-3754","ca":"Cotello","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-17T03:00:00.000Z","uc":"2026-06-25T14:55:48.152Z","seg":6,"vis":0,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":57,"pr":"VILELA 3399","no":"belen interior","wa":"54 9 3472 55-9259","ca":"Cotello","ti":"","uf":"","ed":"40","ec":"","pc":"2026-06-13T03:00:00.000Z","uc":"2026-06-25T15:34:47.206Z","seg":3,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":60,"pr":"Q2","no":"carlos","wa":"54 9 11 6869-7086","ca":"QR","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-11T03:00:00.000Z","uc":"2026-06-25T15:38:16.346Z","seg":2,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":56,"pr":"MELIAN 3899","no":"celinia","wa":"54 9 11 4069-3856","ca":"Dueno","ti":"","uf":"","ed":"35","ec":"","pc":"2025-06-25T03:00:00.000Z","uc":"2026-06-25T15:31:41.432Z","seg":2,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":27,"pr":"VILELA 3399","no":"Daniela","wa":"549115063-2990","ca":"Dueno","ti":"","uf":"","ed":"55","ec":"","pc":"2026-05-28T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":6,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":31,"pr":"VILELA 3399","no":"Daniela Covino","wa":"549113665-1940","ca":"Cotello","ti":"","uf":"","ed":"40","ec":"","pc":"2026-06-03T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":5,"pr":"VILELA 3399","no":"Debora","wa":"549116618-3212","ca":"Dueno","ti":"4 amb","uf":"401","ed":"60","ec":"","pc":"2025-11-27T03:00:00.000Z","uc":"2026-03-17T03:00:00.000Z","seg":14,"vis":3,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":32,"pr":"VILELA 3399","no":"Debora Kacowicz","wa":"549115417-6418","ca":"Dueno","ti":"","uf":"","ed":"50","ec":"","pc":"2026-06-09T03:00:00.000Z","uc":"2026-06-24T03:00:00.000Z","seg":4,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":17,"pr":"VILELA 3399","no":"Ernesto","wa":"549117009-0812","ca":"Cotello","ti":"","uf":"","ed":"50","ec":"","pc":"2026-04-15T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":7,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":53,"pr":"MELIAN 3899","no":"ezequiel","wa":"54 9 11 4033-2384","ca":"Cotello","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-22T03:00:00.000Z","uc":"2026-06-25T15:18:55.315Z","seg":2,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":8,"pr":"PAROISSIEN","no":"Fede amigo javi","wa":"549113249-5874","ca":"Cotello","ti":"","uf":"","ed":"30","ec":"","pc":"2026-02-06T03:00:00.000Z","uc":"2026-06-03T03:00:00.000Z","seg":10,"vis":0,"es":"CONTACTAR LUEGO","co":"INVERSION","_orden":2,"_alerta":0},{"id":36,"pr":"VILELA 3399","no":"Felin","wa":"549114949-4939","ca":"Dueno","ti":"","uf":"","ed":"50","ec":"","pc":"2026-06-23T03:00:00.000Z","uc":"2026-06-25T15:00:35.991Z","seg":6,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":19,"pr":"MELIAN 3899","no":"Fernando","wa":"549116095-5751","ca":"Cotello","ti":"4 amb","uf":"702","ed":"45","ec":"","pc":"2026-04-16T03:00:00.000Z","uc":"2026-04-27T03:00:00.000Z","seg":8,"vis":3,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":51,"pr":"VILELA 3399","no":"fernando bonetto","wa":"54 9 3513 28-6240","ca":"Dueno","ti":"","uf":"-","ed":"","ec":"","pc":"2026-06-22T03:00:00.000Z","uc":"2026-06-25T15:12:11.308Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":16,"pr":"VILELA 3399","no":"Fernando Ortuondo","wa":"549115053-5080","ca":"Dueno","ti":"","uf":"","ed":"50","ec":"","pc":"2026-04-14T03:00:00.000Z","uc":"2026-06-25T15:12:33.726Z","seg":9,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":42,"pr":"M2","no":"Gastón int m2","wa":"549112499-5372","ca":"Cotello","ti":"","uf":"402","ed":"27","ec":"","pc":"2026-05-29T03:00:00.000Z","uc":"2026-06-26T13:55:11.398Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":2,"pr":"Q2","no":"Hugo","wa":"549114526-5493","ca":"Referido","ti":"3 amb","uf":"303","ed":"55","ec":"","pc":"2025-10-02T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":10,"vis":2,"es":"CONTACTAR LUEGO","co":"INVERSION · Broker de Paula Aubert","_orden":2,"_alerta":2},{"id":55,"pr":"MELIAN 3899","no":"Javier","wa":"54 9 11 6878-6019","ca":"Dueno","ti":"4 amb","uf":"","ed":"60","ec":"","pc":"2026-05-06T03:00:00.000Z","uc":"2026-06-25T15:26:11.411Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":18,"pr":"VILELA 3399","no":"Jessica","wa":"549114445-4530","ca":"Cotello","ti":"","uf":"","ed":"40","ec":"","pc":"2026-04-15T03:00:00.000Z","uc":"2026-06-25T14:33:57.604Z","seg":9,"vis":1,"es":"CAIDO","co":"PROPIO","_orden":3,"_alerta":2},{"id":66,"pr":"Q2","no":"Jorgelina Kobrinsky","wa":"54 9 11 2497-1713","ca":"Cotello","ti":"","uf":"","ed":"","ec":"","pc":"2026-05-19T03:00:00.000Z","uc":"2026-06-29T18:59:40.551Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":6,"pr":"VILELA 3399","no":"Josefina","wa":"549115973-6581","ca":"QR","ti":"3 amb","uf":"202","ed":"65","ec":"","pc":"2026-01-12T03:00:00.000Z","uc":"2026-04-07T03:00:00.000Z","seg":21,"vis":3,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":11,"pr":"Q2","no":"Leonardo Alvarez","wa":"549115428-1963","ca":"Dueno","ti":"4 amb","uf":"701","ed":"50","ec":"","pc":"2026-02-26T03:00:00.000Z","uc":"2026-03-17T03:00:00.000Z","seg":5,"vis":2,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":21,"pr":"VILELA 3399","no":"Liliana Neuquen","wa":"549299509-9948","ca":"Cotello","ti":"","uf":"","ed":"40","ec":"","pc":"2026-04-20T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":7,"vis":0,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":64,"pr":"Q2","no":"Luca q1","wa":"54 9 11 6031-2441","ca":"","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-29T03:00:00.000Z","uc":"2026-06-29T15:27:35.642Z","seg":1,"vis":0,"es":"INTERESADO","co":"","_orden":1,"_alerta":2},{"id":34,"pr":"VILELA 3399","no":"Lucia","wa":"549114195-7979","ca":"Cotello","ti":"","uf":"","ed":"30","ec":"","pc":"2026-06-19T03:00:00.000Z","uc":"2026-06-24T03:00:00.000Z","seg":4,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":47,"pr":"VILELA 3399","no":"Lucila","wa":"54 9 11 6051-7790","ca":"Dueno","ti":"","uf":"-","ed":"30","ec":"","pc":"2026-06-23T03:00:00.000Z","uc":"2026-06-25T13:50:59.639Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":3,"pr":"MELIAN 3899","no":"Luis Maria","wa":"549114419-0631","ca":"Referido","ti":"3 amb","uf":"301","ed":"55","ec":"","pc":"2025-11-10T03:00:00.000Z","uc":"2026-04-30T03:00:00.000Z","seg":19,"vis":2,"es":"CERRADO","co":"INVERSION · Inversor de parte de Julian Roque","_orden":4,"_alerta":2},{"id":1,"pr":"VILELA 3399","no":"Luisa","wa":"549114028-0011","ca":"Dueno","ti":"4 amb","uf":"301","ed":"65","ec":"","pc":"2024-12-24T03:00:00.000Z","uc":"2026-03-17T03:00:00.000Z","seg":4,"vis":2,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":13,"pr":"Q2","no":"Lujan","wa":"549112349-1749","ca":"Dueno","ti":"3 amb","uf":"604","ed":"60","ec":"","pc":"2026-03-02T03:00:00.000Z","uc":"2026-05-12T03:00:00.000Z","seg":8,"vis":2,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":44,"pr":"VILELA 3399","no":"Magalí","wa":"549115765-7192","ca":"QR","ti":"","uf":"","ed":"35","ec":"","pc":"2026-06-02T03:00:00.000Z","uc":"2026-06-25T14:37:14.355Z","seg":8,"vis":1,"es":"INTERESADO","co":"PROPIO","_orden":1,"_alerta":0},{"id":28,"pr":"MELIAN 3899","no":"Majo","wa":"549115865-5656","ca":"Cotello","ti":"","uf":"","ed":"40","ec":"","pc":"2026-06-01T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":6,"vis":0,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":61,"pr":"MELIAN 3899","no":"marcela bechis","wa":"54 9 11 3893-5800","ca":"Dueno","ti":"","uf":"","ed":"60","ec":"","pc":"2026-04-04T03:00:00.000Z","uc":"2026-06-25T15:40:57.117Z","seg":5,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":35,"pr":"MELIAN 3899","no":"Marcela int melian","wa":"549115563-0822","ca":"QR","ti":"","uf":"","ed":"50","ec":"","pc":"2026-06-20T03:00:00.000Z","uc":"2026-06-25T15:01:03.859Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":63,"pr":"Q2","no":"marcelo garcia","wa":"54 9 11 6210-8777","ca":"Dueno","ti":"","uf":"-","ed":"45","ec":"","pc":"2026-06-23T03:00:00.000Z","uc":"2026-06-25T18:21:23.778Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":20,"pr":"VILELA 3399","no":"Maria jose","wa":"549113215-8177","ca":"Dueno","ti":"","uf":"","ed":"45","ec":"","pc":"2026-04-17T03:00:00.000Z","uc":"2026-06-19T03:00:00.000Z","seg":6,"vis":0,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":43,"pr":"VILELA 3399","no":"Maria Laura","wa":"549115485-2354","ca":"Dueno","ti":"","uf":"","ed":"35","ec":"","pc":"2026-06-10T03:00:00.000Z","uc":"2026-06-18T03:00:00.000Z","seg":6,"vis":1,"es":"CONTACTAR LUEGO","co":"INVERSION","_orden":2,"_alerta":2},{"id":22,"pr":"MELIAN 3899","no":"Maria tete","wa":"549114927-0731","ca":"Dueno","ti":"3 amb","uf":"401","ed":"55","ec":"","pc":"2026-04-23T03:00:00.000Z","uc":"2026-05-13T03:00:00.000Z","seg":9,"vis":1,"es":"CERRADO","co":"INVERSION","_orden":4,"_alerta":2},{"id":46,"pr":"VILELA 3399","no":"Mariano soso","wa":"54 9 3415 88-4178","ca":"Cotello","ti":"3 amb","uf":"-","ed":"40","ec":"","pc":"2026-06-24T03:00:00.000Z","uc":"2026-06-25T13:49:47.329Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":38,"pr":"VILELA 3399","no":"Marité","wa":"549116189-9723","ca":"Dueno","ti":"","uf":"","ed":"50","ec":"","pc":"2026-06-21T03:00:00.000Z","uc":"2026-06-24T03:00:00.000Z","seg":4,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":25,"pr":"VILELA 3399","no":"Matias","wa":"549116353-4337","ca":"Dueno","ti":"","uf":"","ed":"35","ec":"","pc":"2026-05-03T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":7,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":9,"pr":"Q2","no":"Matias A Esoukourian","wa":"549114528-6216","ca":"Zonaprop","ti":"3 amb","uf":"305","ed":"26","ec":"","pc":"2026-02-22T03:00:00.000Z","uc":"2026-03-17T03:00:00.000Z","seg":6,"vis":1,"es":"CERRADO","co":"INVERSION","_orden":4,"_alerta":2},{"id":50,"pr":"VILELA 3399","no":"Matias crnel suarez","wa":"54 9 2926 40-1986","ca":"Pagina Web","ti":"","uf":"-","ed":"","ec":"","pc":"2026-06-23T03:00:00.000Z","uc":"2026-06-25T15:10:21.912Z","seg":2,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":24,"pr":"MELIAN 3899","no":"Matias Rubio","wa":"549116129-6099","ca":"Dueno","ti":"2 amb","uf":"Q2","ed":"45","ec":"","pc":"2026-04-27T03:00:00.000Z","uc":"2026-05-18T03:00:00.000Z","seg":8,"vis":2,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":41,"pr":"VILELA 3399","no":"Mirna","wa":"549115019-5430","ca":"Dueno","ti":"","uf":"","ed":"40","ec":"","pc":"2026-06-18T03:00:00.000Z","uc":"2026-06-26T13:55:16.452Z","seg":4,"vis":0,"es":"CONTACTAR LUEGO","co":"INVERSION","_orden":2,"_alerta":2},{"id":12,"pr":"VILELA 3399","no":"Natacha califano","wa":"549114194-1786","ca":"Cotello","ti":"","uf":"","ed":"50","ec":"","pc":"2026-02-26T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":6,"vis":1,"es":"CAIDO","co":"PROPIO","_orden":3,"_alerta":2},{"id":30,"pr":"VILELA 3400","no":"Natalia 170","wa":"549114945-8044","ca":"Cotello","ti":"","uf":"","ed":"40","ec":"","pc":"2026-06-02T03:00:00.000Z","uc":"2026-06-29T19:03:29.621Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":23,"pr":"VILELA 3399","no":"Natalia grau","wa":"549115378-7860","ca":"Dueno","ti":"","uf":"","ed":"40","ec":"","pc":"2026-04-24T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":5,"vis":0,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":14,"pr":"VILELA 3399","no":"Octavio","wa":"549113193-2343","ca":"Dueno","ti":"3 amb","uf":"","ed":"40","ec":"","pc":"2026-03-20T03:00:00.000Z","uc":"2026-06-17T03:00:00.000Z","seg":10,"vis":1,"es":"CONTACTAR LUEGO","co":"INVERSION","_orden":2,"_alerta":2},{"id":26,"pr":"VILELA 3399","no":"Pablo Costa","wa":"549114998-2957","ca":"Dueno","ti":"4 amb","uf":"201","ed":"60","ec":"","pc":"2026-05-12T03:00:00.000Z","uc":"2026-05-19T03:00:00.000Z","seg":10,"vis":3,"es":"CERRADO","co":"PROPIO","_orden":4,"_alerta":2},{"id":59,"pr":"MELIAN 3899","no":"roger dimant","wa":"54 9 11 4082-4353","ca":"QR","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-04T03:00:00.000Z","uc":"2026-06-25T15:37:44.604Z","seg":3,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":7,"pr":"VILELA 3399","no":"Romina","wa":"549116269-7654","ca":"Cotello","ti":"","uf":"","ed":"50","ec":"","pc":"2026-01-13T03:00:00.000Z","uc":"2026-03-30T03:00:00.000Z","seg":4,"vis":1,"es":"CAIDO","co":"PROPIO","_orden":3,"_alerta":2},{"id":52,"pr":"VILELA 3399","no":"sandra sandler","wa":"54 9 11 4188-9154","ca":"Cotello","ti":"","uf":"-","ed":"","ec":"","pc":"2026-06-18T03:00:00.000Z","uc":"2026-06-25T15:16:14.347Z","seg":2,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":39,"pr":"Melian","no":"Sebastian","wa":"549115568-3871","ca":"Cotello","ti":"","uf":"","ed":"50","ec":"","pc":"2026-06-22T03:00:00.000Z","uc":"2026-06-25T15:08:14.348Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":58,"pr":"MELIAN 3899","no":"sergio","wa":"54 9 11 3030-5003","ca":"Cotello","ti":"","uf":"502","ed":"","ec":"","pc":"2026-06-11T03:00:00.000Z","uc":"2026-06-25T15:36:34.352Z","seg":3,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":37,"pr":"VILELA 3399","no":"Silvia","wa":"549115954-8569","ca":"QR","ti":"","uf":"","ed":"50","ec":"","pc":"2026-06-23T03:00:00.000Z","uc":"2026-06-26T13:55:19.365Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":29,"pr":"VILELA 3399","no":"Silvia spada","wa":"549114187-4724","ca":"Cotello","ti":"","uf":"","ed":"55","ec":"","pc":"2026-06-01T03:00:00.000Z","uc":"2026-06-11T03:00:00.000Z","seg":5,"vis":1,"es":"CONTACTAR LUEGO","co":"PROPIO","_orden":2,"_alerta":2},{"id":40,"pr":"VILELA 3399","no":"Simon","wa":"549113028-7300","ca":"Dueno","ti":"","uf":"","ed":"30","ec":"","pc":"2026-06-17T03:00:00.000Z","uc":"2026-06-25T14:37:41.059Z","seg":5,"vis":2,"es":"INTERESADO","co":"INVERSION","_orden":1,"_alerta":0},{"id":48,"pr":"MELIAN 3899","no":"Sol","wa":"54 9 11 2314-0769","ca":"Dueno","ti":"4 amb","uf":"-","ed":"50","ec":"Casado/a","pc":"2026-05-18T03:00:00.000Z","uc":"2026-06-25T14:18:06.273Z","seg":1,"vis":0,"es":"CONTACTAR LUEGO","co":"","_orden":2,"_alerta":2},{"id":65,"pr":"MELIAN 3899","no":"vanesa  arq","wa":"54 9 11 6782-9426","ca":"Cotello","ti":"","uf":"","ed":"","ec":"","pc":"2026-06-29T03:00:00.000Z","uc":"2026-06-29T15:53:17.360Z","seg":1,"vis":0,"es":"INTERESADO","co":"","_orden":1,"_alerta":2},{"id":15,"pr":"Q2","no":"Veronica Trucco","wa":"549294464-1548","ca":"Dueno","ti":"2 amb","uf":"505","ed":"50","ec":"","pc":"2026-04-03T03:00:00.000Z","uc":"2026-06-04T03:00:00.000Z","seg":3,"vis":1,"es":"CERRADO","co":"INVERSION","_orden":4,"_alerta":2}];var _v=[{"id":1,"cid":1,"fe":"2026-03-17T03:00:00.000Z","pr":"VILELA 3399","no":"Luisa","wa":"549114028-0011","uf":"301","ca":"Dueno","ed":"65","ec":"","in":""},{"id":2,"cid":2,"fe":"2026-06-17T03:00:00.000Z","pr":"Q2","no":"Hugo","wa":"549114526-5493","uf":"303","ca":"Referido","ed":"55","ec":"","in":""},{"id":3,"cid":3,"fe":"2026-04-30T03:00:00.000Z","pr":"MELIAN 3899","no":"Luis Maria","wa":"549114419-0631","uf":"301","ca":"Referido","ed":"55","ec":"","in":""},{"id":4,"cid":4,"fe":"2026-03-17T03:00:00.000Z","pr":"MELIAN 3899","no":"Alejandro Calderon","wa":"549116486-4975","uf":"","ca":"Cotello","ed":"65","ec":"","in":""},{"id":5,"cid":5,"fe":"2026-03-17T03:00:00.000Z","pr":"VILELA 3399","no":"Debora","wa":"549116618-3212","uf":"401","ca":"Dueno","ed":"60","ec":"","in":""},{"id":6,"cid":6,"fe":"2026-04-07T03:00:00.000Z","pr":"VILELA 3399","no":"Josefina","wa":"549115973-6581","uf":"202","ca":"QR","ed":"65","ec":"","in":""},{"id":7,"cid":7,"fe":"2026-03-30T03:00:00.000Z","pr":"VILELA 3399","no":"Romina","wa":"549116269-7654","uf":"","ca":"Cotello","ed":"50","ec":"","in":""},{"id":8,"cid":9,"fe":"2026-03-17T03:00:00.000Z","pr":"Q2","no":"Matias A Esoukourian","wa":"549114528-6216","uf":"305","ca":"Zonaprop","ed":"26","ec":"","in":""},{"id":9,"cid":11,"fe":"2026-03-17T03:00:00.000Z","pr":"Q2","no":"Leonardo Alvarez","wa":"549115428-1963","uf":"701","ca":"Dueno","ed":"50","ec":"","in":""},{"id":10,"cid":12,"fe":"2026-06-17T03:00:00.000Z","pr":"VILELA 3399","no":"Natacha califano","wa":"549114194-1786","uf":"","ca":"Cotello","ed":"50","ec":"","in":""},{"id":11,"cid":13,"fe":"2026-05-12T03:00:00.000Z","pr":"Q2","no":"Lujan","wa":"549112349-1749","uf":"604","ca":"Dueno","ed":"60","ec":"","in":""},{"id":12,"cid":14,"fe":"2026-06-17T03:00:00.000Z","pr":"VILELA 3399","no":"Octavio","wa":"549113193-2343","uf":"","ca":"Dueno","ed":"40","ec":"","in":""},{"id":13,"cid":15,"fe":"2026-06-04T03:00:00.000Z","pr":"Q2","no":"Veronica Trucco","wa":"549294464-1548","uf":"505","ca":"Dueno","ed":"50","ec":"","in":""},{"id":14,"cid":16,"fe":"2026-05-11T03:00:00.000Z","pr":"VILELA 3399","no":"Fernando Ortuondo","wa":"549115053-5080","uf":"","ca":"Dueno","ed":"50","ec":"","in":""},{"id":15,"cid":17,"fe":"2026-06-17T03:00:00.000Z","pr":"VILELA 3399","no":"Ernesto","wa":"549117009-0812","uf":"","ca":"Cotello","ed":"50","ec":"","in":""},{"id":16,"cid":18,"fe":"2026-04-29T03:00:00.000Z","pr":"VILELA 3399","no":"Jessica","wa":"549114445-4530","uf":"","ca":"Cotello","ed":"40","ec":"","in":""},{"id":17,"cid":19,"fe":"2026-04-27T03:00:00.000Z","pr":"MELIAN 3899","no":"Fernando","wa":"549116095-5751","uf":"702","ca":"Cotello","ed":"45","ec":"","in":""},{"id":18,"cid":22,"fe":"2026-05-13T03:00:00.000Z","pr":"MELIAN 3899","no":"Maria tete","wa":"549114927-0731","uf":"401","ca":"Dueno","ed":"55","ec":"","in":""},{"id":19,"cid":24,"fe":"2026-05-18T03:00:00.000Z","pr":"MELIAN 3899","no":"Matias Rubio","wa":"549116129-6099","uf":"Q2","ca":"Dueno","ed":"45","ec":"","in":""},{"id":20,"cid":25,"fe":"2026-06-17T03:00:00.000Z","pr":"VILELA 3399","no":"Matias","wa":"549116353-4337","uf":"","ca":"Dueno","ed":"35","ec":"","in":""},{"id":21,"cid":26,"fe":"2026-05-19T03:00:00.000Z","pr":"VILELA 3399","no":"Pablo Costa","wa":"549114998-2957","uf":"201","ca":"Dueno","ed":"60","ec":"","in":""},{"id":22,"cid":27,"fe":"2026-06-17T03:00:00.000Z","pr":"VILELA 3399","no":"Daniela","wa":"549115063-2990","uf":"","ca":"Dueno","ed":"55","ec":"","in":""},{"id":23,"cid":29,"fe":"2026-06-11T03:00:00.000Z","pr":"VILELA 3399","no":"Silvia spada","wa":"549114187-4724","uf":"","ca":"Cotello","ed":"55","ec":"","in":""},{"id":24,"cid":30,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3400","no":"Natalia 170","wa":"549114945-8044","uf":"","ca":"Cotello","ed":"40","ec":"","in":""},{"id":25,"cid":31,"fe":"2026-06-17T03:00:00.000Z","pr":"VILELA 3399","no":"Daniela Covino","wa":"549113665-1940","uf":"","ca":"Cotello","ed":"40","ec":"","in":""},{"id":26,"cid":32,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Debora Kacowicz","wa":"549115417-6418","uf":"","ca":"Dueno","ed":"50","ec":"","in":""},{"id":27,"cid":33,"fe":"2026-06-22T03:00:00.000Z","pr":"MELIAN 3899","no":"Andres españa","wa":"3462833-1249","uf":"","ca":"Cotello","ed":"55","ec":"","in":""},{"id":28,"cid":34,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Lucia","wa":"549114195-7979","uf":"","ca":"Cotello","ed":"30","ec":"","in":""},{"id":29,"cid":35,"fe":"2026-06-22T03:00:00.000Z","pr":"MELIAN 3899","no":"Marcela int melian","wa":"549115563-0822","uf":"","ca":"QR","ed":"50","ec":"","in":""},{"id":30,"cid":36,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Felin","wa":"549114949-4939","uf":"","ca":"Dueno","ed":"50","ec":"","in":""},{"id":31,"cid":37,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Silvia","wa":"549115954-8569","uf":"","ca":"QR","ed":"50","ec":"","in":""},{"id":32,"cid":38,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Marité","wa":"549116189-9723","uf":"","ca":"Dueno","ed":"50","ec":"","in":""},{"id":33,"cid":39,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Sebastian","wa":"549115568-3871","uf":"","ca":"Cotello","ed":"50","ec":"","in":""},{"id":34,"cid":40,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Simon","wa":"549113028-7300","uf":"","ca":"Dueno","ed":"30","ec":"","in":""},{"id":35,"cid":42,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Gastón","wa":"549112499-5372","uf":"","ca":"Cotello","ed":"40","ec":"","in":""},{"id":36,"cid":43,"fe":"2026-06-18T03:00:00.000Z","pr":"VILELA 3399","no":"Maria Laura","wa":"549115485-2354","uf":"","ca":"Dueno","ed":"35","ec":"","in":""},{"id":37,"cid":44,"fe":"2026-06-24T03:00:00.000Z","pr":"VILELA 3399","no":"Magalí","wa":"549115765-7192","uf":"","ca":"QR","ed":"35","ec":"","in":""},{"id":38,"cid":null,"fe":"2026-06-26T03:00:00.000Z","pr":"VILELA 3399","no":"Lucila","wa":"54 9 11 6051-7790","uf":"-","ca":"Dueno","ed":"30","ec":"","in":""},{"id":39,"cid":null,"fe":"2026-06-25T03:00:00.000Z","pr":"VILELA 3399","no":"Mariano soso","wa":"54 9 3415 88-4178","uf":"-","ca":"Cotello","ed":"","ec":"","in":""}];var _vn=[{"id":1,"cid":1,"pr":"VILELA 3399","no":"Luisa","uf":"301","ca":"Dueno","fc":"2026-03-17T03:00:00.000Z","co":"PROPIO"},{"id":2,"cid":3,"pr":"MELIAN 3899","no":"Luis Maria","uf":"301","ca":"Referido","fc":"2026-04-30T03:00:00.000Z","co":"INVERSION · Inversor de parte de Julian Roque"},{"id":3,"cid":5,"pr":"VILELA 3399","no":"Debora","uf":"401","ca":"Dueno","fc":"2026-03-17T03:00:00.000Z","co":"PROPIO"},{"id":4,"cid":6,"pr":"VILELA 3399","no":"Josefina","uf":"202","ca":"QR","fc":"2026-04-07T03:00:00.000Z","co":"PROPIO"},{"id":5,"cid":9,"pr":"Q2","no":"Matias A Esoukourian","uf":"305","ca":"Zonaprop","fc":"2026-03-17T03:00:00.000Z","co":"INVERSION"},{"id":6,"cid":11,"pr":"Q2","no":"Leonardo Alvarez","uf":"701","ca":"Dueno","fc":"2026-03-17T03:00:00.000Z","co":"PROPIO"},{"id":7,"cid":13,"pr":"Q2","no":"Lujan","uf":"604","ca":"Dueno","fc":"2026-05-12T03:00:00.000Z","co":"PROPIO"},{"id":8,"cid":15,"pr":"Q2","no":"Veronica Trucco","uf":"505","ca":"Dueno","fc":"2026-06-04T03:00:00.000Z","co":"INVERSION"},{"id":9,"cid":19,"pr":"MELIAN 3899","no":"Fernando","uf":"702","ca":"Cotello","fc":"2026-04-27T03:00:00.000Z","co":"PROPIO"},{"id":10,"cid":22,"pr":"MELIAN 3899","no":"Maria tete","uf":"401","ca":"Dueno","fc":"2026-05-13T03:00:00.000Z","co":"INVERSION"},{"id":11,"cid":24,"pr":"MELIAN 3899","no":"Matias Rubio","uf":"Q2","ca":"Dueno","fc":"2026-05-18T03:00:00.000Z","co":"PROPIO"},{"id":12,"cid":26,"pr":"VILELA 3399","no":"Pablo Costa","uf":"201","ca":"Dueno","fc":"2026-05-19T03:00:00.000Z","co":"PROPIO"},{"id":13,"cid":22,"pr":"MELIAN 3899","no":"Maria tete","uf":"503","ca":"Dueno","fc":"2026-05-13T03:00:00.000Z","co":"INVERSION"}];var _p=[{"id":11,"cid":40,"fe":"2026-06-30T03:00:00.000Z","ho":"15:00","pr":"VILELA 3399","no":"Simon","ca":"Dueno","nt":""},{"id":14,"cid":41,"fe":"2026-07-01T03:00:00.000Z","ho":"17:00","pr":"VILELA 3399","no":"Mirna","ca":"Dueno","nt":""},{"id":15,"cid":32,"fe":"2026-06-30T03:00:00.000Z","ho":"12:00","pr":"VILELA 3399","no":"Debora Kacowicz","ca":"Dueno","nt":""},{"id":16,"cid":46,"fe":"2026-06-30T03:00:00.000Z","ho":"16:00","pr":"VILELA 3399","no":"Mariano soso","ca":"Cotello","nt":""},{"id":17,"cid":37,"fe":"2026-06-29T03:00:00.000Z","ho":"15:00","pr":"VILELA 3399","no":"Silvia","ca":"QR","nt":""},{"id":18,"cid":64,"fe":"2026-06-30T03:00:00.000Z","ho":"16:30","pr":"Q2","no":"Luca q1","ca":"","nt":""},{"id":20,"cid":65,"fe":"2026-06-30T03:00:00.000Z","ho":"17:00","pr":"MELIAN 3899","no":"vanesa  arq","ca":"Cotello","nt":""}];function sd(s){if(!s)return null;var d=new Date(s);return isNaN(d)?null:d;}window.__snapData={CL:_d.map(function(c){return Object.assign({},c,{pc:sd(c.pc),uc:sd(c.uc)});}),VIS:_v.map(function(v){return Object.assign({},v,{fe:sd(v.fe)});}),VEN:_vn.map(function(v){return Object.assign({},v,{fc:sd(v.fc)});}),PROG:_p.map(function(p){return Object.assign({},p,{fe:sd(p.fe)});}),nxCL:67,nxVIS:43,nxVEN:14,nxPROG:21};})();</script></body> para que corra después de que todo el JS está definido
+  // Insertar override justo antes de </body> para que corra después de que todo el JS está definido
   // Y parchear cargarLocal para que use los datos del snapshot si existen
   src=src.replace(
-    'function cargarLocal(){if(window.__snapData){CL=window.__snapData.CL;VIS=window.__snapData.VIS;VEN=window.__snapData.VEN;PROG=window.__snapData.PROG;nxCL=window.__snapData.nxCL;nxVIS=window.__snapData.nxVIS;nxVEN=window.__snapData.nxVEN;nxPROG=window.__snapData.nxPROG;return true;}',
+    'function cargarLocal(){',
     'function cargarLocal(){if(window.__snapData){CL=window.__snapData.CL;VIS=window.__snapData.VIS;VEN=window.__snapData.VEN;PROG=window.__snapData.PROG;nxCL=window.__snapData.nxCL;nxVIS=window.__snapData.nxVIS;nxVEN=window.__snapData.nxVEN;nxPROG=window.__snapData.nxPROG;return true;}'
   );
 
   // Deshabilitar escritura en localStorage del snapshot
   src=src.replace(
-    'function guardarLocal(){if(window.__snapData)return;',
+    'function guardarLocal(){',
     'function guardarLocal(){if(window.__snapData)return;'
   );
 
@@ -1736,7 +1770,32 @@ function construirSnapshotCRM(src,pwd,fecha,hora){
   // Inyectar bloque snap con marcadores únicos para limpieza idempotente
   var ph=hashPwd(pwd);
   var snapBlock=
-    '';
+    '<!--SNAP-START-->'+
+    '<style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style>'+
+    '<div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center">'+
+      '<div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)">'+
+        '<div style="font-size:32px;margin-bottom:10px">\uD83C\uDFE2</div>'+
+        '<div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div>'+
+        '<div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; '+fecha+' '+hora+'</div>'+
+        '<input id="snap-pi" type="password" placeholder="Contrase\u00F1a..." style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center">'+
+        '<div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contrase\u00F1a incorrecta</div>'+
+        '<button onclick="window.__snapLogin()" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button>'+
+      '</div>'+
+    '</div>'+
+    '<script>(function(){'+
+      'var ph='+ph+';'+
+      'window.__snapLogin=function(){'+
+        'var v=document.getElementById("snap-pi").value,h=0;'+
+        'for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}'+
+        'if(h===ph){document.getElementById("snap-ls").style.display="none";sessionStorage.setItem("crm_snap","1");}'+
+        'else{document.getElementById("snap-pe").style.display="block";document.getElementById("snap-pi").value="";}'+
+      '};'+
+      'document.addEventListener("keydown",function(e){if(e.key==="Enter")window.__snapLogin();});'+
+      'if(sessionStorage.getItem("crm_snap")==="1"){'+
+        'setTimeout(function(){var s=document.getElementById("snap-ls");if(s)s.style.display="none";},30);'+
+      '}else{setTimeout(function(){var i=document.getElementById("snap-pi");if(i)i.focus();},100);}'+
+    '})();<\/script>'+
+    '<!--SNAP-END-->';
 
   src=src.replace('<body>','<body>'+snapBlock);
   return src;
