@@ -220,8 +220,8 @@ td{padding:8px 10px;font-size:13px;color:var(--tx);vertical-align:middle;overflo
     </button>
   </div>
 </div>
-<!--SNAP-START--><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><!--SNAP-START--><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="snap-version" content="1782822647440"><!--SNAP-HEAD-END--></head>
-<body><!--SNAP-BODY-START--><style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style><div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center"><div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)"><div style="font-size:32px;margin-bottom:10px">🏢</div><div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div><div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; 30/06/2026 09:30 a. m.</div><input id="snap-pi" type="password" placeholder="Contraseña..." autocomplete="off" style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center"><div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div><button id="snap-btn" type="button" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button></div></div><script>window.addEventListener("DOMContentLoaded",function(){var og=document.getElementById("login-gate");if(og)og.remove();var ph=2000931436;function tryLogin(){var inp=document.getElementById("snap-pi");var v=inp.value,h=0;for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}if(h===ph){document.getElementById("snap-ls").style.display="none";try{sessionStorage.setItem("crm_snap","1");}catch(e){}}else{document.getElementById("snap-pe").style.display="block";inp.value="";inp.focus();}}var btn=document.getElementById("snap-btn");if(btn)btn.addEventListener("click",tryLogin);var inp=document.getElementById("snap-pi");if(inp)inp.addEventListener("keydown",function(e){if(e.key==="Enter")tryLogin();});var already=false;try{already=sessionStorage.getItem("crm_snap")==="1";}catch(e){}if(already){var g=document.getElementById("snap-ls");if(g)g.style.display="none";}else{if(inp)inp.focus();}});</script><!--SNAP-END--><style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style><div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center"><div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)"><div style="font-size:32px;margin-bottom:10px">🏢</div><div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div><div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; 29/06/2026 05:57 p. m.</div><input id="snap-pi" type="password" placeholder="Contraseña..." style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center"><div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div><button onclick="window.__snapLogin()" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button></div></div><script>(function(){var ph=2000931436;window.__snapLogin=function(){var v=document.getElementById("snap-pi").value,h=0;for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}if(h===ph){document.getElementById("snap-ls").style.display="none";sessionStorage.setItem("crm_snap","1");}else{document.getElementById("snap-pe").style.display="block";document.getElementById("snap-pi").value="";}};document.addEventListener("keydown",function(e){if(e.key==="Enter")window.__snapLogin();});if(sessionStorage.getItem("crm_snap")==="1"){setTimeout(function(){var s=document.getElementById("snap-ls");if(s)s.style.display="none";},30);}else{setTimeout(function(){var i=document.getElementById("snap-pi");if(i)i.focus();},100);}})();</script><!--SNAP-END-->
+</head>
+<body>
 <div class="app">
 <div class="topbar">
   <div class="logo"><span>CRM</span> Comercial</div>
@@ -1725,7 +1725,7 @@ function guardarConfigGitHub(){
 }
 
 function construirSnapshotCRM(src,pwd,fecha,hora){
-  // src = HTML original obtenido via fetch (no DOM serializado)
+  // src = HTML original limpio (obtenido via fetch desde GitHub)
 
   // Serializar datos actuales (fechas como ISO strings)
   function safeISO(d){if(!d)return null;if(d instanceof Date&&!isNaN(d))return d.toISOString();var t=new Date(d);return(!isNaN(t))?t.toISOString():null;}
@@ -1734,60 +1734,113 @@ function construirSnapshotCRM(src,pwd,fecha,hora){
   var venSer=JSON.stringify(VEN.map(function(v){return Object.assign({},v,{fc:safeISO(v.fc)});}));
   var progSer=JSON.stringify(PROG.map(function(p){return Object.assign({},p,{fe:safeISO(p.fe)});}));
 
-  // Inyectar datos directamente en las variables globales del HTML fuente.
-  // Estrategia: reemplazar el bloque de declaración var CL=[...] con los datos actuales.
-  // El HTML fuente tiene: var CL=[ ... multiples lineas ... ];
-  // Lo reemplazamos con var CL=<JSON serializado>;
   function safeReplace(haystack, pattern, replacement){
     var m=haystack.match(pattern);
     if(m)return haystack.slice(0,m.index)+replacement+haystack.slice(m.index+m[0].length);
     return haystack;
   }
 
-  // Reemplazar bloques de datos — cada array puede ser multilínea
   // Inyectar datos como bloque marcado para poder limpiarlo en el próximo publish
   var dataBlock=
-    '';
+    '/*DATA-START*/'+
+    'var CL='+clSer+';'+
+    'var VIS='+visSer+';'+
+    'var VEN='+venSer+';'+
+    'var PROG='+progSer+';'+
+    'var nxCL='+nxCL+',nxVIS='+nxVIS+',nxVEN='+nxVEN+',nxPROG='+nxPROG+';'+
+    '/*DATA-END*/';
 
-  // Reemplazar el bloque de datos original (que puede ser un bloque anterior o el original)
-  // Usar marcadores si ya existen, sino reemplazar los arrays originales
   if(src.indexOf('/*DATA-START*/')>=0){
     src=src.replace(/\/\*DATA-START\*\/[\s\S]*?\/\*DATA-END\*\//,dataBlock);
   } else {
-    // Primera vez: reemplazar el bloque completo desde var CL hasta var nxCL=...;
     src=safeReplace(src,
       /var CL\s*=\s*\[[\s\S]*?\n\];\s*\nvar VIS\s*=\s*\[[\s\S]*?\n\];\s*\nvar VEN\s*=\s*\[[\s\S]*?\n\];\s*\nvar PROG\s*=\s*\[[^\]]*\];\s*\nvar nxCL=\d+[^;]+;/,
       dataBlock
     );
   }
 
-  // En el snapshot, cargarLocal no va a encontrar nada en localStorage (GitHub Pages).
-  // Parchar para que convierta las fechas ISO de los arrays hardcodeados y retorne true.
+  // cargarLocal: en GitHub Pages no hay localStorage, convertir fechas ISO → Date
   src=src.replace(
     'function cargarLocal(){\n  try{\n    var raw=localStorage.getItem(LS_KEY);\n    if(!raw)return false;',
     'function cargarLocal(){\n  try{\n    var raw=localStorage.getItem(LS_KEY);\n    if(!raw){'+
-      // Convertir fechas ISO → Date en los arrays ya hardcodeados
       'function sd(s){if(!s)return null;var d=new Date(s);return isNaN(d)?null:d;}'+
       'CL=CL.map(function(c){return Object.assign({},c,{pc:sd(c.pc),uc:sd(c.uc)});});'+
       'VIS=VIS.map(function(v){return Object.assign({},v,{fe:sd(v.fe)});});'+
       'VEN=VEN.map(function(v){return Object.assign({},v,{fc:sd(v.fc)});});'+
       'PROG=PROG.map(function(p){return Object.assign({},p,{fe:sd(p.fe)});});'+
-      'return true;}'+
-    ''
+      'return true;}'
   );
 
-  // Deshabilitar guardarLocal en snapshot
+  // Deshabilitar guardarLocal en snapshot (datos hardcodeados, no se debe pisar)
   src=src.replace(
-    'function guardarLocal(){return;/*snap*/',
-    'function guardarLocal(){'
+    'function guardarLocal(){',
+    'function guardarLocal(){return;/*snap*/'
   );
 
-  // Inyectar bloque snap con marcadores únicos para limpieza idempotente
+  // ── Login gate ────────────────────────────────────────────────────────
   var ph=hashPwd(pwd);
-  var snapBlock=
-    '';
+  var snapTs=Date.now();
+  var SC='<'+'script>';
+  var SC_='<'+'/script>';
 
-  src=src.replace('<body>','<body>'+snapBlock);
+  // HEAD: solo meta no-cache (sin scripts — evita problemas de timing)
+  var snapHead='<!--SNAP-START-->'+
+    '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">'+
+    '<meta http-equiv="Pragma" content="no-cache">'+
+    '<meta http-equiv="Expires" content="0">'+
+    '<meta name="snap-version" content="'+snapTs+'">'+
+    '<!--SNAP-HEAD-END-->';
+
+  // BODY: login gate. Todo el HTML del gate se inyecta primero, el script al final
+  // (después de que el DOM del gate ya existe en el documento).
+  var gateHtml=
+    '<div id="snap-ls" style="position:fixed;inset:0;width:100%;height:100%;z-index:99999;background:#111827;display:flex;align-items:center;justify-content:center">'+
+      '<div style="background:#1f2937;border:1px solid #374151;border-radius:14px;padding:40px 36px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)">'+
+        '<div style="font-size:32px;margin-bottom:10px">\uD83C\uDFE2</div>'+
+        '<div style="font-size:18px;font-weight:700;color:#f9fafb;margin-bottom:4px">CRM Comercial</div>'+
+        '<div style="font-size:12px;color:#9ca3af;margin-bottom:22px">Solo lectura &mdash; '+fecha+' '+hora+'</div>'+
+        '<input id="snap-pi" type="password" placeholder="Contrase\u00F1a..." autocomplete="off" style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:11px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center">'+
+        '<div id="snap-pe" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">Contrase\u00F1a incorrecta</div>'+
+        '<button id="snap-btn" type="button" style="width:100%;background:#c8f060;color:#111;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer">Entrar</button>'+
+      '</div>'+
+    '</div>';
+
+  var gateStyle='<style>.top-r,.btn-backup,.btn-restore,.btn-github,.btn-gh-cfg,.bp,#gh-status,#mbk-gh,#login-gate{display:none!important}</style>';
+
+  var gateScript=SC+
+    'window.addEventListener("DOMContentLoaded",function(){'+
+      'var og=document.getElementById("login-gate");if(og)og.remove();'+
+      'var ph='+ph+';'+
+      'function tryLogin(){'+
+        'var inp=document.getElementById("snap-pi");'+
+        'var v=inp.value,h=0;'+
+        'for(var i=0;i<v.length;i++){h=((h<<5)-h)+v.charCodeAt(i);h|=0;}'+
+        'if(h===ph){'+
+          'document.getElementById("snap-ls").style.display="none";'+
+          'try{sessionStorage.setItem("crm_snap","1");}catch(e){}'+
+        '}else{'+
+          'document.getElementById("snap-pe").style.display="block";'+
+          'inp.value="";inp.focus();'+
+        '}'+
+      '}'+
+      'var btn=document.getElementById("snap-btn");'+
+      'if(btn)btn.addEventListener("click",tryLogin);'+
+      'var inp=document.getElementById("snap-pi");'+
+      'if(inp)inp.addEventListener("keydown",function(e){if(e.key==="Enter")tryLogin();});'+
+      'var already=false;'+
+      'try{already=sessionStorage.getItem("crm_snap")==="1";}catch(e){}'+
+      'if(already){'+
+        'var g=document.getElementById("snap-ls");if(g)g.style.display="none";'+
+      '}else{'+
+        'if(inp)inp.focus();'+
+      '}'+
+    '});'+
+  SC_;
+
+  var snapBody='<!--SNAP-BODY-START-->'+gateStyle+gateHtml+gateScript+'<!--SNAP-END-->';
+
+  src=src.replace('</head>',snapHead+'</head>');
+  src=src.replace('<body>','<body>'+snapBody);
   return src;
 }
 
@@ -1835,8 +1888,10 @@ async function publicarEnGitHub(){
     st.innerHTML='<span style="color:var(--warn)">Generando snapshot...</span>';
 
     // 2. Limpiar bloque snap anterior con marcadores únicos (idempotente)
-    // Limpiar bloques snap y datos anteriores
-    srcOriginal=srcOriginal.replace(/[\s\S]*?<!--SNAP-END-->/,'');
+    // Quitar todo desde <!--SNAP-START--> hasta <!--SNAP-HEAD-END--> en el head
+    srcOriginal=srcOriginal.replace(/<!--SNAP-START-->[\s\S]*?<!--SNAP-HEAD-END-->/,'');
+    // Quitar todo desde <!--SNAP-BODY-START--> hasta <!--SNAP-END--> en el body
+    srcOriginal=srcOriginal.replace(/<!--SNAP-BODY-START-->[\s\S]*?<!--SNAP-END-->/,'');
     srcOriginal=srcOriginal.replace(/\/\*DATA-START\*\/[\s\S]*?\/\*DATA-END\*\//,'');
     // Restaurar cargarLocal si fue parcheado
     srcOriginal=srcOriginal.replace(
@@ -1855,7 +1910,13 @@ async function publicarEnGitHub(){
     if(sha)body.sha=sha;
     var res=await fetch(api,{method:'PUT',headers:hdrs,body:JSON.stringify(body)});
     if(res.ok){
-      st.innerHTML='<span style="color:var(--suc)">✓ Publicado '+hora+'</span><br><a href="https://'+cfg.user+'.github.io/'+cfg.repo+'" target="_blank" style="color:#a78bfa;font-size:10px">'+cfg.user+'.github.io/'+cfg.repo+'</a>';
+      var pubUrl='https://'+cfg.user+'.github.io/'+cfg.repo;
+      st.innerHTML='<span style="color:var(--suc)">✓ Publicado '+hora+'</span><br>'+
+        '<a href="'+pubUrl+'" target="_blank" style="color:#a78bfa;font-size:10px">'+
+        cfg.user+'.github.io/'+cfg.repo+'</a><br>'+
+        '<button onclick="navigator.clipboard.writeText(\''+pubUrl+'\')" '+
+        'style="margin-top:4px;font-size:10px;padding:3px 8px;border-radius:4px;border:.5px solid #a78bfa;background:transparent;color:#a78bfa;cursor:pointer">'+
+        '📋 Copiar link</button>';
     } else {
       var er=await res.json();
       st.innerHTML='<span style="color:var(--dan)">'+(er.message||res.status)+'</span>';
@@ -1892,7 +1953,7 @@ function guardarLocal(){
 function cargarLocal(){
   try{
     var raw=localStorage.getItem(LS_KEY);
-    if(!raw){function sd(s){if(!s)return null;var d=new Date(s);return isNaN(d)?null:d;}CL=CL.map(function(c){return Object.assign({},c,{pc:sd(c.pc),uc:sd(c.uc)});});VIS=VIS.map(function(v){return Object.assign({},v,{fe:sd(v.fe)});});VEN=VEN.map(function(v){return Object.assign({},v,{fc:sd(v.fc)});});PROG=PROG.map(function(p){return Object.assign({},p,{fe:sd(p.fe)});});return true;}
+    if(!raw)return false;
     var data=JSON.parse(raw);
     if(!Array.isArray(data.CL)||!Array.isArray(data.VIS)||!Array.isArray(data.VEN)||!Array.isArray(data.PROG))return false;
     CL  =data.CL.map(function(c){return Object.assign({},c,{pc:safeDate(c.pc),uc:safeDate(c.uc)});});
